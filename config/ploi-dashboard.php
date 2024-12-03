@@ -16,20 +16,4 @@ return [
         'interval' => env('PLOI_POLLING_INTERVAL', '10s'),
     ],
 
-    'routes' => [
-        'site' => [
-            'index' => 'site',
-            'general' => 'site/general',
-            'queue' => 'site/queue',
-            'certificate' => 'site/certificate',
-            'cronjobs' => 'site/cronjobs',
-            'repository' => 'site/repository',
-            'redirects' => 'site/redirects',
-            'settings' => 'site/settings',
-        ],
-        'server' => [
-            'index' => 'server',
-        ],
-    ],
-
 ];
