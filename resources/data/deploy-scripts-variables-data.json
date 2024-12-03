@@ -1,0 +1,32 @@
+{
+  "general": {
+    "{DATE}": "Returns the date that its being deployed on",
+    "{RUN_SCRIPT [1,2]}": "Ability to run scripts that you own on your account, you can find the script ID's on the scripts page. You have to enter the ID's comma separated in an array syntax like the example on the left: <code>[1,2,3,4,5]</code>. These scripts will always be added at the end of your deploy script, the position of this variable does not matter in your deploy script.",
+    "{FLUSH_FASTCGI_CACHE}": "This will flush the FastCGI cache, if enabled.",
+    "{FLUSH_CLOUDFLARE_CACHE}": "This will trigger the Cloudflare flush cache, note that you will need to have the Zone ID attached to this site in the settings tab.",
+    "{RELOAD_PHP_FPM}": "This will flush the PHP FPM worker, the PHP version of this site will be used to flush the correct worker.",
+    "{RELEASE}": "Only usable when having zero downtime deployment enabled. Use this variable to get the new release folder of your project. Example output: <code>/home/ploi/awesome.com-deploy/02062020_063043</code>",
+    "{CLEAR_NEW_RELEASE}": "Only usable when having zero downtime deployment enabled. Use this variable to clear the release if you're aborting the deployment script. For example if you have a commit message with [BOT] and you want to skip the deployment, add this inside that if statement.",
+    "{DO_NOT_NOTIFY}": "Use this variable if you want to skip notifications setup in the notifications tab. This can be extremely useful if you have an if statement to check whether deployment should continue or not. More information on how to do that here.",
+    "{RESTART_DAEMON {ID}}": "Restart a daemon after deployment, you can grab the ID from the Daemons tab on server level.",
+    "{ANY_DEPLOYMENT_SCHEDULED}": "If there's any deployment scheduled, will return 1 if there is a scheduled deployment, 0 if there is not.",
+    "{DEPLOYMENT_SCHEDULED_AT}": "Will return the first upcoming scheduled deployment date, like: <code>2023-07-01 15:45</code>",
+    "{DEPLOYMENT_SOURCE}": "Will return the source where the deployment came from, values: <code>button, api, webhook, quick-deploy, synced, mobile, scheduled, scheduled-api</code>"
+  },
+  "site": {
+    "{SITE_DOMAIN}": "Returns the root domain for this site",
+    "{SITE_PHP_VERSION}": "Returns the PHP version for this site (e.g. 8.2)",
+    "{SITE_PHP}": "Returns the PHP version with handler for this site (e.g. php8.2)",
+    "{SITE_COMPOSER}": "Returns the composer handler with the site's PHP version so composer install is in the correct version (e.g. php8.2 /usr/local/bin/composer)",
+    "{SITE_DIRECTORY}": "Returns the server path this site is installed in (e.g. /home/ploi/example.com)",
+    "{WEB_DIRECTORY}": "Returns the public path this site is installed in (e.g. /home/ploi/example.com/public)"
+  },
+  "repository": {
+    "{BRANCH}": "Returns the branch that this site is on",
+    "{REPOSITORY_NAME}": "Returns the repository name",
+    "{REPOSITORY_USER}": "Returns the repository user",
+    "{COMMIT_MESSAGE}": "Returns the latest commit message.",
+    "{COMMIT_HASH}": "Returns the latest commit hash.",
+    "{COMMIT_AUTHOR}": "Returns the name of the latest commit author."
+  }
+}

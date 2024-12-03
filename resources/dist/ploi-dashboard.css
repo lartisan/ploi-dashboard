@@ -1,0 +1,22 @@
+code {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #ffffff;
+    background-color: #2563eb;
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.125rem;
+}
+
+table.deploy-script-variables thead {
+    background-color: #4b5563;
+}
+
+table.deploy-script-variables thead th {
+    text-align: left;
+    padding: 10px 16px;
+}
+
+table.deploy-script-variables tbody td {
+    text-align: left;
+    padding: 6px 16px;
+}
