@@ -172,7 +172,6 @@ class Ploi
         return $this->client->updateServer($data);
     }
 
-
     /*
      |--------------------------------------------------------------------------
      | Sites

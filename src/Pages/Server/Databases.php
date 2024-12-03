@@ -25,6 +25,7 @@ class Databases extends BasePage implements HasTable
     use InteractsWithTable;
 
     protected static ?string $navigationIcon = 'heroicon-o-circle-stack';
+
     protected static ?string $activeNavigationIcon = 'heroicon-s-circle-stack';
 
     protected static string $view = 'ploi-dashboard::pages.server.databases';
@@ -40,10 +41,13 @@ class Databases extends BasePage implements HasTable
     protected static ?string $slug = 'server/databases';
 
     public ?ServerModel $record = null;
+
     public ?Collection $sites = null;
 
     public array $data = [];
+
     public ?int $databasesCount = null;
+
     public bool $showDatabaseUsers = false;
 
     public function mount(): void
@@ -94,12 +98,11 @@ class Databases extends BasePage implements HasTable
                                 } catch (Exception $e) {
                                     $this->sendNotification('warning', $e->getMessage());
                                 }
-                            })
+                            }),
                     ])
                     ->footerActionsAlignment(Alignment::Right),
             ])
-            ->statePath('data')
-        ;
+            ->statePath('data');
     }
 
     public function table(Tables\Table $table): Tables\Table
@@ -178,8 +181,7 @@ class Databases extends BasePage implements HasTable
                             }
                         }),
                 ]),
-            ])
-        ;
+            ]);
     }
 
     private function getNewDatabaseSchemaFields(): array

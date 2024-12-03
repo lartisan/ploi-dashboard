@@ -19,9 +19,8 @@ class PloiDashboardPlugin implements Plugin
             ->colors([
                 'blue' => Color::Blue,
             ])
-            ->discoverPages(in: __DIR__.'/Pages', for: 'Lartisan\\PloiDashboard\\Pages')
-            ->discoverWidgets(in: __DIR__.'/Widgets', for: 'Lartisan\\PloiDashboard\\Widgets')
-        ;
+            ->discoverPages(in: __DIR__ . '/Pages', for: 'Lartisan\\PloiDashboard\\Pages')
+            ->discoverWidgets(in: __DIR__ . '/Widgets', for: 'Lartisan\\PloiDashboard\\Widgets');
     }
 
     public function boot(Panel $panel): void

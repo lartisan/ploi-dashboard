@@ -27,7 +27,7 @@ class Cronjob extends Model
     {
         try {
             return Ploi::make()->getCronjobs()
-                ->map(fn(CronjobResponseData $item) => $item->toLivewire())
+                ->map(fn (CronjobResponseData $item) => $item->toLivewire())
                 ->toArray();
         } catch (\Exception $e) {
             return [];

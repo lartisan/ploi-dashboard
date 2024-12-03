@@ -36,7 +36,7 @@ class Certificate extends Model
     {
         try {
             return Ploi::make()->getCertificates()
-                ->map(fn(CertificateResponseData $item) => $item->toLivewire())
+                ->map(fn (CertificateResponseData $item) => $item->toLivewire())
                 ->toArray();
         } catch (\Exception $e) {
             return [];

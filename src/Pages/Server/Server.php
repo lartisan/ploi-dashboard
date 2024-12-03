@@ -126,12 +126,11 @@ class Server extends BasePage implements HasTable
 
                         Forms\Components\Actions\Action::make('Advanced settings')
                             ->color('gray')
-                            ->action(fn () => $this->showAdvancedSettings = !$this->showAdvancedSettings),
+                            ->action(fn () => $this->showAdvancedSettings = ! $this->showAdvancedSettings),
                     ])
-                    ->footerActionsAlignment(Alignment::Right)
+                    ->footerActionsAlignment(Alignment::Right),
             ])
-            ->statePath('data')
-        ;
+            ->statePath('data');
     }
 
     public function table(Table $table): Table
@@ -141,11 +140,11 @@ class Server extends BasePage implements HasTable
             ->recordUrl(fn (Model $record) => route('filament.admin.pages.site'))
             ->columns([
                 Tables\Columns\Layout\Split::make([
-                        $this->getStatusColumn()->grow(false),
+                    $this->getStatusColumn()->grow(false),
 
-                        Tables\Columns\TextColumn::make('domain')
-                            ->description(fn (Model $record): string => 'PHP Version: ' . $record->php_version)
-                            ->searchable(),
+                    Tables\Columns\TextColumn::make('domain')
+                        ->description(fn (Model $record): string => 'PHP Version: ' . $record->php_version)
+                        ->searchable(),
                 ]),
             ]);
     }

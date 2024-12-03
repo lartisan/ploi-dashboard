@@ -19,6 +19,7 @@ class Network extends BasePage implements HasTable
     use Tables\Concerns\InteractsWithTable;
 
     protected static ?string $navigationIcon = 'heroicon-o-clock';
+
     protected static ?string $activeNavigationIcon = 'heroicon-s-clock';
 
     protected static string $view = 'ploi-dashboard::pages.server.network';
@@ -37,6 +38,7 @@ class Network extends BasePage implements HasTable
         'type' => 'tcp',
         'rule_type' => 'allow',
     ];
+
     private Builder $query;
 
     #[On('refresh')]
@@ -113,7 +115,7 @@ class Network extends BasePage implements HasTable
                             ->after(function () {
                                 sleep(1);
                                 $this->dispatch('refresh');
-                            })
+                            }),
                     ])
                     ->footerActionsAlignment(Alignment::Right),
             ])->statePath('data');

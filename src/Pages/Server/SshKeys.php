@@ -19,6 +19,7 @@ class SshKeys extends BasePage implements HasTable
     use Tables\Concerns\InteractsWithTable;
 
     protected static ?string $navigationIcon = 'heroicon-o-clock';
+
     protected static ?string $activeNavigationIcon = 'heroicon-s-clock';
 
     protected static string $view = 'ploi-dashboard::pages.server.ssh-keys';
@@ -36,6 +37,7 @@ class SshKeys extends BasePage implements HasTable
     protected static ?string $slug = 'server/ssh-keys';
 
     public array $data = [];
+
     private Builder $query;
 
     #[On('refresh')]
@@ -83,7 +85,7 @@ class SshKeys extends BasePage implements HasTable
                             ->after(function () {
                                 sleep(1);
                                 $this->dispatch('refresh');
-                            })
+                            }),
                     ])
                     ->footerActionsAlignment(Alignment::Right),
             ])->statePath('data');

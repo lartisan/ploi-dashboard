@@ -36,7 +36,7 @@ class Queue extends Model
     {
         try {
             return Ploi::make()->getQueueWorkers()
-                ->map(fn(QueueResponseData $item) => $item->toLivewire())
+                ->map(fn (QueueResponseData $item) => $item->toLivewire())
                 ->toArray();
         } catch (Exception $e) {
             return [];

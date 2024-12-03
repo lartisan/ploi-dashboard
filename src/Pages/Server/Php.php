@@ -14,6 +14,7 @@ use Livewire\Attributes\On;
 class Php extends BasePage
 {
     protected static ?string $navigationIcon = 'heroicon-o-code-bracket';
+
     protected static ?string $activeNavigationIcon = 'heroicon-s-code-bracket';
 
     protected static string $view = 'ploi-dashboard::pages.server.php';
@@ -33,7 +34,8 @@ class Php extends BasePage
     public ?ServerModel $record = null;
 
     public array $data = [];
-    public array $availablePhpVersions = ["8.4", "8.3", "8.2", "8.1", "8.0", "7.4", "7.3", "7.2", "7.1", "7.0", "5.6"];
+
+    public array $availablePhpVersions = ['8.4', '8.3', '8.2', '8.1', '8.0', '7.4', '7.3', '7.2', '7.1', '7.0', '5.6'];
 
     public function mount(): void
     {
@@ -106,7 +108,7 @@ class Php extends BasePage
                                             sleep(1);
                                             $this->dispatch('refresh');
                                         }),
-                                ])
+                                ]),
                             ]),
                     ]),
 
@@ -121,12 +123,11 @@ class Php extends BasePage
                         // Action when test domain is not enabled
                         Forms\Components\Group::make()
                             ->schema([
-                                Forms\Components\Actions::make($this->getPhpVersionsActions())
+                                Forms\Components\Actions::make($this->getPhpVersionsActions()),
                             ]),
                     ]),
             ])
-            ->statePath('data')
-        ;
+            ->statePath('data');
     }
 
     private function getPhpVersionsActions(): array
@@ -134,15 +135,15 @@ class Php extends BasePage
         $actions = [];
 
         foreach ($this->availablePhpVersions as $phpVersion) {
-            $actions[] = Forms\Components\Actions\Action::make('Install '.$phpVersion)
-                ->label((in_array($phpVersion, $this->record->installed_php_versions) ? 'Installed ' : 'Install ').$phpVersion)
+            $actions[] = Forms\Components\Actions\Action::make('Install ' . $phpVersion)
+                ->label((in_array($phpVersion, $this->record->installed_php_versions) ? 'Installed ' : 'Install ') . $phpVersion)
                 ->color(in_array($phpVersion, $this->record->installed_php_versions) ? 'gray' : 'primary')
                 ->disabled(fn () => in_array($phpVersion, $this->record->installed_php_versions))
                 ->action(function () use ($phpVersion) {
                     try {
                         Ploi::make()->installPhpVersion($this->record->id, $phpVersion);
 
-                        $this->sendNotification('success', 'PHP version '.$phpVersion.' is being installed');
+                        $this->sendNotification('success', 'PHP version ' . $phpVersion . ' is being installed');
                     } catch (Exception $e) {
                         $this->sendNotification('warning', $e->getMessage());
                     }
@@ -158,9 +159,9 @@ class Php extends BasePage
 
     private function getDescription(): HtmlString
     {
-        return new HtmlString('Your current default PHP version: '.$this->record->php_version.'
+        return new HtmlString('Your current default PHP version: ' . $this->record->php_version . '
 
-            Your current PHP CLI version: '.$this->record->php_cli_version.'
+            Your current PHP CLI version: ' . $this->record->php_cli_version . '
             
             You can install additional PHP versions right here. This will not change any websites but only install the PHP packages next to your current PHP version. You are also able to set the PHP CLI version to another version and the default PHP version that should be used for future websites that are created.
         ');

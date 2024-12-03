@@ -25,7 +25,7 @@ class Redirect extends Model
     {
         try {
             return Ploi::make()->getRedirects()
-                ->map(fn(RedirectData $item) => $item->toLivewire())
+                ->map(fn (RedirectData $item) => $item->toLivewire())
                 ->toArray();
         } catch (\Exception $e) {
             return [];

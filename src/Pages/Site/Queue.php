@@ -20,6 +20,7 @@ class Queue extends BasePage implements HasTable
     use Tables\Concerns\InteractsWithTable;
 
     protected static ?string $navigationIcon = 'heroicon-o-code-bracket';
+
     protected static ?string $activeNavigationIcon = 'heroicon-s-code-bracket';
 
     protected static string $view = 'ploi-dashboard::pages.queue';
@@ -35,7 +36,9 @@ class Queue extends BasePage implements HasTable
     protected static ?string $slug = 'site/queue';
 
     public array $website;
+
     public array $data;
+
     private Builder $query;
 
     public function mount(): void
@@ -152,7 +155,7 @@ class Queue extends BasePage implements HasTable
                     ->footerActions([
                         $this->createQueueAction(),
                     ])
-                    ->footerActionsAlignment(Alignment::Right)
+                    ->footerActionsAlignment(Alignment::Right),
             ])->statePath('data');
     }
 
@@ -167,14 +170,13 @@ class Queue extends BasePage implements HasTable
                 Tables\Columns\TextColumn::make('queue')
                     ->description(
                         fn (Model $record) => sprintf('Connection %s - Sleep %s - Processes %s', $record->connection, $record->sleep, $record->processes)
-                    )
+                    ),
             ])
             ->actions([
                 $this->pauseAction(),
                 $this->restartAction(),
                 $this->deleteAction(),
-            ])
-        ;
+            ]);
     }
 
     private function createQueueAction(): Forms\Components\Actions\Action
