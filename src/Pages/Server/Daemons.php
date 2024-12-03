@@ -19,6 +19,7 @@ class Daemons extends BasePage implements HasTable
     use Tables\Concerns\InteractsWithTable;
 
     protected static ?string $navigationIcon = 'heroicon-o-clock';
+
     protected static ?string $activeNavigationIcon = 'heroicon-s-clock';
 
     protected static string $view = 'ploi-dashboard::pages.server.daemons';
@@ -37,6 +38,7 @@ class Daemons extends BasePage implements HasTable
         'processes' => 1,
         'system_user' => 'ploi',
     ];
+
     private Builder $query;
 
     #[On('refresh')]
@@ -93,7 +95,7 @@ class Daemons extends BasePage implements HasTable
                             ->after(function () {
                                 sleep(1);
                                 $this->dispatch('refresh');
-                            })
+                            }),
                     ])
                     ->footerActionsAlignment(Alignment::Right),
             ])->statePath('data');
@@ -117,7 +119,7 @@ class Daemons extends BasePage implements HasTable
                                 ->append($record->processes)
                                 ->append(' process')
                                 ->plural($record->processes)
-                        )
+                        ),
                 ]),
             ])
             ->actions([

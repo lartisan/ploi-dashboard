@@ -18,9 +18,9 @@ use Lartisan\PloiDashboard\Services\Ploi\ValueObjects\Responses\QueueResponseDat
 use Lartisan\PloiDashboard\Services\Ploi\ValueObjects\Responses\RedirectData;
 use Lartisan\PloiDashboard\Services\Ploi\ValueObjects\Responses\RepositoryResponseData;
 use Lartisan\PloiDashboard\Services\Ploi\ValueObjects\Responses\ServerResponseData;
+use Lartisan\PloiDashboard\Services\Ploi\ValueObjects\Responses\SiteResponseData;
 use Lartisan\PloiDashboard\Services\Ploi\ValueObjects\Responses\SshKeyResponseData;
 use Lartisan\PloiDashboard\Services\Ploi\ValueObjects\Responses\TestDomainData;
-use Lartisan\PloiDashboard\Services\Ploi\ValueObjects\Responses\SiteResponseData;
 
 class PloiClient
 {
@@ -224,7 +224,6 @@ class PloiClient
         return rescue(fn () => ServerResponseData::toCollection($response->json('data')));
     }
 
-
     /*
      |--------------------------------------------------------------------------
      | Sites
@@ -236,7 +235,6 @@ class PloiClient
 
         return rescue(fn () => SiteResponseData::toCollection($response->json('data')));
     }
-
 
     /*
      |--------------------------------------------------------------------------
@@ -500,7 +498,7 @@ class PloiClient
             ->acceptJson();
     }
 
-    protected function get(string $endpoint, array $query = []): PromiseInterface|Response
+    protected function get(string $endpoint, array $query = []): PromiseInterface | Response
     {
         $response = $this->http()->get($endpoint, $query);
 
@@ -517,7 +515,7 @@ class PloiClient
         return $response;
     }
 
-    protected function post(string $endpoint, array $query = []): PromiseInterface|Response
+    protected function post(string $endpoint, array $query = []): PromiseInterface | Response
     {
         $response = $this->http()->post($endpoint, $query);
 
@@ -534,7 +532,7 @@ class PloiClient
         return $response;
     }
 
-    protected function patch(string $endpoint, array $query = []): PromiseInterface|Response
+    protected function patch(string $endpoint, array $query = []): PromiseInterface | Response
     {
         $response = $this->http()->patch($endpoint, $query);
 
@@ -551,7 +549,7 @@ class PloiClient
         return $response;
     }
 
-    protected function delete(string $endpoint): PromiseInterface|Response
+    protected function delete(string $endpoint): PromiseInterface | Response
     {
         $response = $this->http()->delete($endpoint);
 
@@ -572,7 +570,7 @@ class PloiClient
      | Handle Client & Server Error Messages
      |--------------------------------------------------------------------------
      */
-    private function handleErrors(PromiseInterface|Response $response): void
+    private function handleErrors(PromiseInterface | Response $response): void
     {
         if ($response->clientError()) {
             throw new Exception(

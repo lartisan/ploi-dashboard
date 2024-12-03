@@ -16,6 +16,7 @@ use Lartisan\PloiDashboard\Services\Ploi\Ploi;
 class Site extends BasePage
 {
     protected static ?string $navigationIcon = 'heroicon-o-globe-alt';
+
     protected static ?string $activeNavigationIcon = 'heroicon-s-globe-alt';
 
     protected static string $view = 'ploi-dashboard::pages.general';
@@ -29,7 +30,9 @@ class Site extends BasePage
     protected static ?string $slug = 'site';
 
     public ?SiteModel $site;
+
     public array $data;
+
     public array $deployScriptVariables;
 
     public function mount(): void
@@ -56,7 +59,7 @@ class Site extends BasePage
                 Forms\Components\Section::make('Deployment')
                     ->schema([
                         Forms\Components\MarkdownEditor::make('deploy_script')
-                            ->toolbarButtons()
+                            ->toolbarButtons(),
                     ])
                     ->footerActions([
                         $this->saveDeployScriptAction(),
@@ -67,12 +70,12 @@ class Site extends BasePage
             ->statePath('data');
     }
 
-    public function getTitle(): string|Htmlable
+    public function getTitle(): string | Htmlable
     {
         return $this->site?->domain ?? 'General';
     }
 
-    public function getSubheading(): Htmlable|string|null
+    public function getSubheading(): Htmlable | string | null
     {
         return $this->site
             ? str('Last deploy: ')
@@ -147,7 +150,7 @@ class Site extends BasePage
         );
     }
 
-    private function saveDeployScriptAction(): Actions\Action|null|Forms\Components\Actions\Action
+    private function saveDeployScriptAction(): Actions\Action | null | Forms\Components\Actions\Action
     {
         return Forms\Components\Actions\Action::make('Save')
             ->action(function (array $state) {
@@ -163,13 +166,13 @@ class Site extends BasePage
             });
     }
 
-    private function getDeployScriptsVariablesAction(): Forms\Form|null|Forms\Components\Actions\Action
+    private function getDeployScriptsVariablesAction(): Forms\Form | null | Forms\Components\Actions\Action
     {
         return Forms\Components\Actions\Action::make('Deploy script variables')
             ->color(false)
             ->modalHeading('Deploy script variables')
             ->modalDescription('Think of deploy script variables as little helpers when you\'re setting up your site. They let you fill in specific details about your site without needing to write them into the code every time. This way, if something changes, like where your site is hosted, you just update the variable, and your script is good to go. It\'s an easy way to make your setup smoother, more flexible, and save you some time along the way.')
-            ->modalFooterActions(fn() => [])
+            ->modalFooterActions(fn () => [])
             ->extraAttributes(['class' => 'underline hover:no-underline'])
             ->form([
                 Forms\Components\Section::make('General')

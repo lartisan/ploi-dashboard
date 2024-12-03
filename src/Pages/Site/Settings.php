@@ -15,6 +15,7 @@ use Throwable;
 class Settings extends BasePage
 {
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
+
     protected static ?string $activeNavigationIcon = 'heroicon-s-cog-6-tooth';
 
     protected static string $view = 'ploi-dashboard::pages.settings';
@@ -30,6 +31,7 @@ class Settings extends BasePage
     protected static ?string $slug = 'site/settings';
 
     public Server $server;
+
     public array $data = [];
 
     public function mount(): void
@@ -80,7 +82,7 @@ class Settings extends BasePage
                 $this->getFormHeadingViewField(
                     name: 'site_domain',
                     heading: 'Site domain',
-                    description: 'You can update your site domain here, please be aware of the fact that your cronjobs and all other scripts that are pointed to this directory <code>/home/ploi/'.$this->data['domain'].'</code> will not be accessible anymore. We also automatically delete any SSL certificates that contains this domain name.',
+                    description: 'You can update your site domain here, please be aware of the fact that your cronjobs and all other scripts that are pointed to this directory <code>/home/ploi/' . $this->data['domain'] . '</code> will not be accessible anymore. We also automatically delete any SSL certificates that contains this domain name.',
                 ),
 
                 Forms\Components\Group::make()
@@ -101,7 +103,7 @@ class Settings extends BasePage
                         } catch (Exception $e) {
                             $this->sendNotification('warning', $e->getMessage());
                         }
-                    })
+                    }),
             ])
             ->footerActionsAlignment(Alignment::Right);
     }
@@ -132,10 +134,10 @@ class Settings extends BasePage
                             $this->sendNotification('warning', $e->getMessage());
                         }
                     })
-                ->after(function () {
-                    sleep(1);
-                    $this->dispatch('refresh');
-                }),
+                    ->after(function () {
+                        sleep(1);
+                        $this->dispatch('refresh');
+                    }),
             ])
             ->footerActionsAlignment(Alignment::Right);
     }
@@ -154,7 +156,7 @@ class Settings extends BasePage
 
                 // Action when test domain is not enabled
                 Forms\Components\Group::make()
-                    ->visible(fn() => $this->data['test_domain'] === null)
+                    ->visible(fn () => $this->data['test_domain'] === null)
                     ->columnStart(5)
                     ->columnSpan(1)
                     ->schema([
@@ -179,7 +181,7 @@ class Settings extends BasePage
 
                 // Info when test domain is enabled
                 Forms\Components\ViewField::make('test_domain_info')
-                    ->visible(fn() => $this->data['test_domain'] !== null)
+                    ->visible(fn () => $this->data['test_domain'] !== null)
                     ->columnSpan(3)
                     ->view('ploi-dashboard::forms.fields.form-info')
                     ->viewData([
@@ -189,7 +191,7 @@ class Settings extends BasePage
             ])
             ->footerActions([
                 Forms\Components\Actions\Action::make('Disable test domain')
-                    ->visible(fn() => $this->data['test_domain'] !== null)
+                    ->visible(fn () => $this->data['test_domain'] !== null)
                     ->color('danger')
                     ->action(function () {
                         try {
@@ -211,7 +213,7 @@ class Settings extends BasePage
 
     private function getPhpVersionSectionFields(): Forms\Components\Section
     {
-        return Forms\Components\Section::make('PHP Version '.$this->data['php_version'])
+        return Forms\Components\Section::make('PHP Version ' . $this->data['php_version'])
             ->columns(5)
             ->schema([
                 $this->getFormHeadingViewField(
@@ -250,12 +252,12 @@ class Settings extends BasePage
                     ->modalWidth('md')
                     ->form([
                         Forms\Components\Placeholder::make('Are you sure you want to delete this site?')
-                            ->content(new HtmlString('Please type <code>'.$this->data['domain'].'</code> to confirm that you want to delete this site.'))
+                            ->content(new HtmlString('Please type <code>' . $this->data['domain'] . '</code> to confirm that you want to delete this site.'))
                             ->columnSpanFull(),
 
                         Forms\Components\TextInput::make('domain')
                             ->required()
-                            ->rules(['required', 'in:'.$this->data['domain']])
+                            ->rules(['required', 'in:' . $this->data['domain']]),
                     ])
                     ->action(function () {
                         try {
@@ -282,8 +284,8 @@ class Settings extends BasePage
 
         foreach ($phpVersions as $version) {
             $fields[] = Forms\Components\Actions::make([
-                Forms\Components\Actions\Action::make('PHP '.$version)
-                    ->label('PHP '.$version)
+                Forms\Components\Actions\Action::make('PHP ' . $version)
+                    ->label('PHP ' . $version)
                     ->extraAttributes(fn () => ['class' => 'w-full'])
                     ->disabled($this->data['php_version'] === $version)
                     ->action(function () use ($version) {

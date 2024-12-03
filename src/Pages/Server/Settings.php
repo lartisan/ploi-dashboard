@@ -13,6 +13,7 @@ use Lartisan\PloiDashboard\Services\Ploi\Ploi;
 class Settings extends BasePage
 {
     protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
+
     protected static ?string $activeNavigationIcon = 'heroicon-s-cog-6-tooth';
 
     protected static string $view = 'ploi-dashboard::pages.server.settings';
@@ -81,9 +82,8 @@ class Settings extends BasePage
                                 }
                             }),
                     ])
-                    ->footerActionsAlignment(Alignment::Right)
+                    ->footerActionsAlignment(Alignment::Right),
             ])
-            ->statePath('data')
-        ;
+            ->statePath('data');
     }
 }

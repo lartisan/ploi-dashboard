@@ -12,6 +12,7 @@ use Throwable;
 class Repository extends BasePage
 {
     protected static ?string $navigationIcon = 'heroicon-o-share';
+
     protected static ?string $activeNavigationIcon = 'heroicon-s-share';
 
     protected static string $view = 'ploi-dashboard::pages.repository';
@@ -40,7 +41,6 @@ class Repository extends BasePage
             $this->sendNotification('warning', $e->getMessage());
         }
     }
-
 
     public function form(Forms\Form $form): Forms\Form
     {

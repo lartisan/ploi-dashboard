@@ -21,6 +21,7 @@ class Cronjobs extends BasePage implements HasTable
     use Tables\Concerns\InteractsWithTable;
 
     protected static ?string $navigationIcon = 'heroicon-o-clock';
+
     protected static ?string $activeNavigationIcon = 'heroicon-s-clock';
 
     protected static string $view = 'ploi-dashboard::pages.server.cronjobs';
@@ -36,6 +37,7 @@ class Cronjobs extends BasePage implements HasTable
     protected static ?string $slug = 'server/cronjobs';
 
     public array $data;
+
     private Builder $query;
 
     public function mount(): void
@@ -107,8 +109,10 @@ class Cronjobs extends BasePage implements HasTable
                             ->action(function () {
                                 try {
                                     $data = data_get($this->data, 'frequency') === 'custom'
-                                        ? array_merge($this->data,
-                                            ['frequency' => data_get($this->data, 'custom_frequency')])
+                                        ? array_merge(
+                                            $this->data,
+                                            ['frequency' => data_get($this->data, 'custom_frequency')]
+                                        )
                                         : $this->data;
 
                                     Ploi::make()->createCronjob($data);
@@ -121,7 +125,7 @@ class Cronjobs extends BasePage implements HasTable
                             ->after(function () {
                                 sleep(1);
                                 $this->dispatch('refresh');
-                            })
+                            }),
                     ])
                     ->footerActionsAlignment(Alignment::Right),
             ])->statePath('data');
@@ -144,7 +148,7 @@ class Cronjobs extends BasePage implements HasTable
                         }
 
                         return $description;
-                    })
+                    }),
             ])
             ->actions([
                 $this->deleteAction(),

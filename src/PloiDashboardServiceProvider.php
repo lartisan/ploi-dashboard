@@ -2,17 +2,16 @@
 
 namespace Lartisan\PloiDashboard;
 
-use Exception;
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
 use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
+use Lartisan\PloiDashboard\Testing\TestsPloiDashboard;
 use Livewire\Features\SupportTesting\Testable;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Lartisan\PloiDashboard\Testing\TestsPloiDashboard;
 
 class PloiDashboardServiceProvider extends PackageServiceProvider
 {
@@ -40,9 +39,7 @@ class PloiDashboardServiceProvider extends PackageServiceProvider
         }
     }
 
-    public function packageRegistered(): void
-    {
-    }
+    public function packageRegistered(): void {}
 
     public function packageBooted(): void
     {

@@ -20,6 +20,7 @@ class Redirects extends BasePage implements HasTable
     use Tables\Concerns\InteractsWithTable;
 
     protected static ?string $navigationIcon = 'heroicon-o-arrows-right-left';
+
     protected static ?string $activeNavigationIcon = 'heroicon-s-arrows-right-left';
 
     protected static string $view = 'ploi-dashboard::pages.redirects';
@@ -35,6 +36,7 @@ class Redirects extends BasePage implements HasTable
     protected static ?string $slug = 'site/redirects';
 
     private Builder $query;
+
     public array $data = [
         'redirect_from' => '',
         'redirect_to' => '',
@@ -94,7 +96,7 @@ class Redirects extends BasePage implements HasTable
                                 } catch (Exception $e) {
                                     $this->sendNotification('warning', $e->getMessage());
                                 }
-                            })
+                            }),
                     ])
                     ->footerActionsAlignment(Alignment::Right),
             ])->statePath('data');
@@ -117,8 +119,7 @@ class Redirects extends BasePage implements HasTable
             ])
             ->actions([
                 $this->deleteAction(),
-            ])
-        ;
+            ]);
     }
 
     private function deleteAction(): Tables\Actions\Action
@@ -144,7 +145,8 @@ class Redirects extends BasePage implements HasTable
 
     private function getDescription(): HtmlString
     {
-        return new HtmlString('You can create redirects here to have specific paths redirected to a new path.\n
+        return new HtmlString(
+            'You can create redirects here to have specific paths redirected to a new path.\n
             To redirect this whole domain to another domain, use these variables:\n
             From: <code>/(?!\.well-known/)(.*)</code>
             To: <code>https://example.com/$1</code>'

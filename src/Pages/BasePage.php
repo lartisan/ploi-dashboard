@@ -3,8 +3,8 @@
 namespace Lartisan\PloiDashboard\Pages;
 
 use Filament\Forms;
-use Filament\Pages\Page;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Pages\Page;
 use Filament\Tables;
 use Illuminate\Support\HtmlString;
 use Lartisan\PloiDashboard\Actions\NotificationMessage;
@@ -18,7 +18,7 @@ abstract class BasePage extends Page implements HasForms
         NotificationMessage::make()->send($type, $message, $body);
     }
 
-    protected function getStatusColumn(): string|Tables\Columns\ViewColumn
+    protected function getStatusColumn(): string | Tables\Columns\ViewColumn
     {
         return Tables\Columns\ViewColumn::make('status')
             ->label(false)
@@ -26,7 +26,7 @@ abstract class BasePage extends Page implements HasForms
             ->view('ploi-dashboard::tables.columns.status');
     }
 
-    protected function getFormHeadingViewField(string $name, ?string $heading = null, HtmlString|string|null $description = null, int $colSpan = 1): Forms\Components\Field
+    protected function getFormHeadingViewField(string $name, ?string $heading = null, HtmlString | string | null $description = null, int $colSpan = 1): Forms\Components\Field
     {
         return Forms\Components\ViewField::make($name)
             ->view('ploi-dashboard::forms.fields.form-heading')

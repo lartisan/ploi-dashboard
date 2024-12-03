@@ -20,6 +20,7 @@ class Certificate extends BasePage implements HasTable
     use Tables\Concerns\InteractsWithTable;
 
     protected static ?string $navigationIcon = 'heroicon-o-lock-closed';
+
     protected static ?string $activeNavigationIcon = 'heroicon-s-lock-closed';
 
     protected static string $view = 'ploi-dashboard::pages.certificate';
@@ -35,7 +36,9 @@ class Certificate extends BasePage implements HasTable
     protected static ?string $slug = 'site/certificate';
 
     public ?Site $website;
+
     public array $data;
+
     private Builder $query;
 
     public function mount(): void
@@ -106,7 +109,7 @@ class Certificate extends BasePage implements HasTable
                                 } catch (Exception $e) {
                                     $this->sendNotification('warning', $e->getMessage());
                                 }
-                            })
+                            }),
                     ])
                     ->footerActionsAlignment(Alignment::Right),
             ])->statePath('data');
@@ -123,12 +126,11 @@ class Certificate extends BasePage implements HasTable
                 Tables\Columns\TextColumn::make('domain')
                     ->description(
                         fn (Model $record) => $record->expires_at ? sprintf('Expires %s', $record->expires_at?->diffForHumans()) : ''
-                    )
+                    ),
             ])
             ->actions([
                 $this->deleteAction(),
-            ])
-        ;
+            ]);
     }
 
     private function deleteAction(): Tables\Actions\Action

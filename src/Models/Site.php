@@ -45,7 +45,7 @@ class Site extends Model
     {
         try {
             return Ploi::make()->listSites()
-                ->map(fn(SiteResponseData $item) => $item->toLivewire())
+                ->map(fn (SiteResponseData $item) => $item->toLivewire())
                 ->toArray();
         } catch (Exception $e) {
             return [];

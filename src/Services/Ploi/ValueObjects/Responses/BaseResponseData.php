@@ -17,7 +17,7 @@ readonly class BaseResponseData implements Wireable
     public function toLivewire(): array
     {
         $reflect = new \ReflectionClass($this);
-        $props   = $reflect->getProperties(ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED);
+        $props = $reflect->getProperties(ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED);
 
         $data = [];
 
