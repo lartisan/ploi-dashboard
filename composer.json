@@ -1,6 +1,6 @@
 {
     "name": "lartisan/ploi-dashboard",
-    "description": "This is as package the bring the Ploi dashboard to Filament",
+    "description": "This is as package that brings the Ploi dashboard to Filament admin panel.",
     "keywords": [
         "lartisan",
         "laravel",
