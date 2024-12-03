@@ -5,7 +5,7 @@
 
 ![ploi-dashboard-og](https://filamentcomponents.com/plugins/ploi-dashboard.png)
 
-This is as package that brings the Ploi dashboard to Filament admin panel. Provide the server id and the id of the site you wish to manage and unlock the Ploi features straight in your Filament admin panel.
+This is a package that brings the Ploi dashboard to Filament admin panel. Provide the server id and the id of the site you wish to manage and unlock the Ploi features straight in your Filament admin panel.
 
 ## Installation
 
