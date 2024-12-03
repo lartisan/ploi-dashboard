@@ -9,6 +9,7 @@ readonly class CertificateResponseData extends BaseResponseData
         public string $status,
         public string $domain,
         public string $type,
+        public bool $tenant,
         public int $site_id,
         public int $server_id,
         public ?string $expires_at,
