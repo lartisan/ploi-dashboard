@@ -123,7 +123,7 @@ class Daemons extends BasePage implements HasTable
                 ]),
             ])
             ->actions([
-                //$this->pauseAction(),
+                // $this->pauseAction(),
                 $this->restartAction(),
                 $this->deleteAction(),
             ]);

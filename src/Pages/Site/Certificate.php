@@ -84,8 +84,8 @@ class Certificate extends BasePage implements HasTable
                                     ->options([
                                         'letsencrypt' => 'Let\'s Encrypt',
                                         'zerossl' => 'ZeroSSL',
-                                        //'existing' => 'Install existing certificate',
-                                        //'signing' => 'Create signing request',
+                                        // 'existing' => 'Install existing certificate',
+                                        // 'signing' => 'Create signing request',
                                     ]),
 
                                 Forms\Components\TextInput::make('certificate')

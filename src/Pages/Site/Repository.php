@@ -140,8 +140,8 @@ class Repository extends BasePage
                             ->columnSpanFull()
                             ->schema([
                                 Forms\Components\ViewField::make('warning')
-                                    //->columnSpan(2)
-                                    //->columnStart(2)
+                                    // ->columnSpan(2)
+                                    // ->columnStart(2)
                                     ->view('ploi-dashboard::forms.fields.form-warning')
                                     ->viewData([
                                         'text' => 'You can remove your repository here, be aware that all files will be removed as well.',

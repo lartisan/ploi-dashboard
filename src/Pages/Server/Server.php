@@ -112,7 +112,7 @@ class Server extends BasePage implements HasTable
                         Forms\Components\Actions\Action::make('Add site')
                             ->action(function () {
                                 try {
-                                    //Ploi::make()->createQueueWorker($this->data);
+                                    // Ploi::make()->createQueueWorker($this->data);
 
                                     $this->sendNotification('success', 'Queue worker created successfully');
                                 } catch (Exception $e) {

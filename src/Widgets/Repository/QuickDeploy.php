@@ -38,15 +38,15 @@ class QuickDeploy extends Widget implements HasForms
                         ->visible(fn () => true)
                         ->action(function () {
                             try {
-                                //Ploi::make()->toggleQuickDeploy();
+                                // Ploi::make()->toggleQuickDeploy();
                                 Notification::make()
                                     ->title('Quick Deploy enabled successfully')
                                     ->success()
                                     ->send();
 
-                                //$this->sendNotification('success', 'Quick deploy has been enabled');
+                                // $this->sendNotification('success', 'Quick deploy has been enabled');
                             } catch (Throwable $e) {
-                                //$this->sendNotification('danger', $e->getMessage());
+                                // $this->sendNotification('danger', $e->getMessage());
                             }
                         }),
                 ]),

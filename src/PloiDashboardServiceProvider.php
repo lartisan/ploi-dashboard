@@ -63,7 +63,7 @@ class PloiDashboardServiceProvider extends PackageServiceProvider
         return [
             // AlpineComponent::make('ploi-dashboard', __DIR__ . '/../resources/dist/components/ploi-dashboard.js'),
             Css::make('ploi-dashboard-styles', __DIR__ . '/../resources/dist/ploi-dashboard.css'),
-            //Js::make('ploi-dashboard-scripts', __DIR__ . '/../resources/dist/ploi-dashboard.js'),
+            // Js::make('ploi-dashboard-scripts', __DIR__ . '/../resources/dist/ploi-dashboard.js'),
         ];
     }
 }
