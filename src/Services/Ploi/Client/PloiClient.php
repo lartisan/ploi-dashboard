@@ -281,7 +281,6 @@ class PloiClient
         $response = $this->patch("servers/{$this->config->serverId}/sites/{$this->config->websiteId}/deploy/script", [
             'deploy_script' => $deployScript,
         ]);
-        ray($response->json());
 
         return $response->json();
     }
