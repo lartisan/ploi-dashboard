@@ -193,6 +193,20 @@ class PloiClient
         return rescue(fn () => DaemonResponseData::fromLivewire($response->json('data')));
     }
 
+    public function pauseDaemon(int $id)
+    {
+        $response = $this->post("servers/{$this->config->serverId}/daemons/{$id}/toggle-pause");
+
+        return $response->json();
+    }
+
+    public function restartDaemon(int $id)
+    {
+        $response = $this->post("servers/{$this->config->serverId}/daemons/{$id}/restart");
+
+        return $response->json();
+    }
+
     public function deleteDaemon(int $id)
     {
         $response = $this->delete("servers/{$this->config->serverId}/daemons/{$id}");

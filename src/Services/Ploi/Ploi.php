@@ -147,6 +147,16 @@ class Ploi
         return $this->client->createDaemon($data);
     }
 
+    public function pauseDaemon(int $id)
+    {
+        return $this->client->pauseDaemon($id);
+    }
+
+    public function restartDaemon(int $id)
+    {
+        return $this->client->restartDaemon($id);
+    }
+
     public function deleteDaemon(int $id)
     {
         return $this->client->deleteDaemon($id);

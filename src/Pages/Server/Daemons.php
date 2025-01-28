@@ -123,8 +123,52 @@ class Daemons extends BasePage implements HasTable
                 ]),
             ])
             ->actions([
+                //$this->pauseAction(),
+                $this->restartAction(),
                 $this->deleteAction(),
             ]);
+    }
+
+    private function pauseAction(): Tables\Actions\Action
+    {
+        return Tables\Actions\Action::make('pause')
+            ->icon(fn (Model $record) => 'heroicon-s-pause')
+            ->color('warning')
+            ->requiresConfirmation()
+            ->iconButton()
+            ->action(function (Model $record) {
+                try {
+                    Ploi::make()->pauseDaemon($record->id);
+
+                    $this->sendNotification('success', 'Daemon paused successfully');
+
+                    sleep(1);
+                    $this->dispatch('refresh');
+                } catch (Exception $e) {
+                    $this->sendNotification('warning', $e->getMessage());
+                }
+            });
+    }
+
+    private function restartAction(): Tables\Actions\Action
+    {
+        return Tables\Actions\Action::make('restart')
+            ->icon('heroicon-s-arrow-path')
+            ->color('success')
+            ->requiresConfirmation()
+            ->iconButton()
+            ->action(function (Model $record) {
+                try {
+                    Ploi::make()->restartDaemon($record->id);
+
+                    $this->sendNotification('success', 'Daemon restarted successfully');
+
+                    sleep(1);
+                    $this->dispatch('refresh');
+                } catch (Exception $e) {
+                    $this->sendNotification('warning', $e->getMessage());
+                }
+            });
     }
 
     private function deleteAction(): Tables\Actions\Action
