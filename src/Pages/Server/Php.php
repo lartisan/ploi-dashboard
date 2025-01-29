@@ -21,8 +21,6 @@ class Php extends BasePage
 
     protected static ?string $navigationGroup = 'Ploi Management';
 
-    protected static ?string $navigationParentItem = 'Server';
-
     protected static ?int $navigationSort = 1;
 
     protected ?string $heading = '';
@@ -36,6 +34,16 @@ class Php extends BasePage
     public array $data = [];
 
     public array $availablePhpVersions = ['8.4', '8.3', '8.2', '8.1', '8.0', '7.4', '7.3', '7.2', '7.1', '7.0', '5.6'];
+
+    public static function getNavigationParentItem(): ?string
+    {
+        return config('ploi-dashboard.enabled_modules.server.server') ? 'Server' : null;
+    }
+
+    public static function canAccess(): bool
+    {
+        return config('ploi-dashboard.enabled_modules.server.php');
+    }
 
     public function mount(): void
     {

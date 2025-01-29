@@ -26,8 +26,6 @@ class SshKeys extends BasePage implements HasTable
 
     protected static ?string $navigationGroup = 'Ploi Management';
 
-    protected static ?string $navigationParentItem = 'Server';
-
     protected static ?int $navigationSort = 5;
 
     protected ?string $heading = '';
@@ -39,6 +37,16 @@ class SshKeys extends BasePage implements HasTable
     public array $data = [];
 
     private Builder $query;
+
+    public static function getNavigationParentItem(): ?string
+    {
+        return config('ploi-dashboard.enabled_modules.server.server') ? 'Server' : null;
+    }
+
+    public static function canAccess(): bool
+    {
+        return config('ploi-dashboard.enabled_modules.server.ssh-keys');
+    }
 
     #[On('refresh')]
     public function getQuery(): Builder

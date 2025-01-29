@@ -19,8 +19,6 @@ class Repository extends BasePage
 
     protected static ?string $navigationGroup = 'Ploi Management';
 
-    protected static ?string $navigationParentItem = 'Site';
-
     protected static ?int $navigationSort = 5;
 
     protected ?string $heading = '';
@@ -28,6 +26,16 @@ class Repository extends BasePage
     protected static ?string $slug = 'site/repository';
 
     public array $data;
+
+    public static function getNavigationParentItem(): ?string
+    {
+        return config('ploi-dashboard.enabled_modules.site.site') ? 'Site' : null;
+    }
+
+    public static function canAccess(): bool
+    {
+        return config('ploi-dashboard.enabled_modules.site.repository');
+    }
 
     public function mount(): void
     {

@@ -27,8 +27,6 @@ class Queue extends BasePage implements HasTable
 
     protected static ?string $navigationGroup = 'Ploi Management';
 
-    protected static ?string $navigationParentItem = 'Site';
-
     protected static ?int $navigationSort = 2;
 
     protected ?string $heading = '';
@@ -40,6 +38,16 @@ class Queue extends BasePage implements HasTable
     public array $data;
 
     private Builder $query;
+
+    public static function getNavigationParentItem(): ?string
+    {
+        return config('ploi-dashboard.enabled_modules.site.site') ? 'Site' : null;
+    }
+
+    public static function canAccess(): bool
+    {
+        return config('ploi-dashboard.enabled_modules.site.queue');
+    }
 
     public function mount(): void
     {

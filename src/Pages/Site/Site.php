@@ -35,6 +35,11 @@ class Site extends BasePage
 
     public array $deployScriptVariables;
 
+    public static function canAccess(): bool
+    {
+        return config('ploi-dashboard.enabled_modules.site.site');
+    }
+
     public function mount(): void
     {
         $this->deployScriptVariables = $this->getDeployScriptVariables();

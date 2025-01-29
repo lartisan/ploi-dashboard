@@ -28,8 +28,6 @@ class Cronjobs extends BasePage implements HasTable
 
     protected static ?string $navigationGroup = 'Ploi Management';
 
-    protected static ?string $navigationParentItem = 'Server';
-
     protected static ?int $navigationSort = 3;
 
     protected ?string $heading = '';
@@ -39,6 +37,16 @@ class Cronjobs extends BasePage implements HasTable
     public array $data;
 
     private Builder $query;
+
+    public static function getNavigationParentItem(): ?string
+    {
+        return config('ploi-dashboard.enabled_modules.server.server') ? 'Server' : null;
+    }
+
+    public static function canAccess(): bool
+    {
+        return config('ploi-dashboard.enabled_modules.server.cronjobs');
+    }
 
     public function mount(): void
     {

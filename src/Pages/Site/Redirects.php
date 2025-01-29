@@ -27,8 +27,6 @@ class Redirects extends BasePage implements HasTable
 
     protected static ?string $navigationGroup = 'Ploi Management';
 
-    protected static ?string $navigationParentItem = 'Site';
-
     protected static ?int $navigationSort = 6;
 
     protected ?string $heading = '';
@@ -42,6 +40,16 @@ class Redirects extends BasePage implements HasTable
         'redirect_to' => '',
         'type' => 'redirect',
     ];
+
+    public static function getNavigationParentItem(): ?string
+    {
+        return config('ploi-dashboard.enabled_modules.site.site') ? 'Site' : null;
+    }
+
+    public static function canAccess(): bool
+    {
+        return config('ploi-dashboard.enabled_modules.site.redirects');
+    }
 
     public function mount(): void
     {

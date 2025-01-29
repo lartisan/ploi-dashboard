@@ -41,6 +41,11 @@ class Server extends BasePage implements HasTable
 
     public bool $showAdvancedSettings = false;
 
+    public static function canAccess(): bool
+    {
+        return config('ploi-dashboard.enabled_modules.server.server');
+    }
+
     public function mount(): void
     {
         $this->record = ServerModel::query()->first();

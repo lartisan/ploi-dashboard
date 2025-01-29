@@ -22,8 +22,6 @@ class Settings extends BasePage
 
     protected static ?string $navigationGroup = 'Ploi Management';
 
-    protected static ?string $navigationParentItem = 'Site';
-
     protected static ?int $navigationSort = 7;
 
     protected ?string $heading = '';
@@ -33,6 +31,16 @@ class Settings extends BasePage
     public Server $server;
 
     public array $data = [];
+
+    public static function getNavigationParentItem(): ?string
+    {
+        return config('ploi-dashboard.enabled_modules.site.site') ? 'Site' : null;
+    }
+
+    public static function canAccess(): bool
+    {
+        return config('ploi-dashboard.enabled_modules.site.settings');
+    }
 
     public function mount(): void
     {

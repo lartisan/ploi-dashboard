@@ -26,8 +26,6 @@ class Daemons extends BasePage implements HasTable
 
     protected static ?string $navigationGroup = 'Ploi Management';
 
-    protected static ?string $navigationParentItem = 'Server';
-
     protected static ?int $navigationSort = 6;
 
     protected ?string $heading = '';
@@ -40,6 +38,16 @@ class Daemons extends BasePage implements HasTable
     ];
 
     private Builder $query;
+
+    public static function getNavigationParentItem(): ?string
+    {
+        return config('ploi-dashboard.enabled_modules.server.server') ? 'Server' : null;
+    }
+
+    public static function canAccess(): bool
+    {
+        return config('ploi-dashboard.enabled_modules.server.daemons');
+    }
 
     #[On('refresh')]
     public function getQuery(): Builder

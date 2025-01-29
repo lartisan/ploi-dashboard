@@ -517,13 +517,7 @@ class PloiClient
 
         $this->handleErrors($response);
 
-        logger('Ploi API Request', [
-            'method' => 'GET',
-            'endpoint' => $endpoint,
-            'query' => $query,
-            'response' => $response->json(),
-            'status' => $response->status(),
-        ]);
+        $this->log(response: $response, method: 'GET', endpoint: $endpoint, query: $query);
 
         return $response;
     }
@@ -534,13 +528,7 @@ class PloiClient
 
         $this->handleErrors($response);
 
-        logger('Ploi API Request', [
-            'method' => 'POST',
-            'endpoint' => $endpoint,
-            'query' => $query,
-            'response' => $response->json(),
-            'status' => $response->status(),
-        ]);
+        $this->log(response: $response, method: 'POST', endpoint: $endpoint, query: $query);
 
         return $response;
     }
@@ -551,13 +539,7 @@ class PloiClient
 
         $this->handleErrors($response);
 
-        logger('Ploi API Request', [
-            'method' => 'PATCH',
-            'endpoint' => $endpoint,
-            'query' => $query,
-            'response' => $response->json(),
-            'status' => $response->status(),
-        ]);
+        $this->log(response: $response, method: 'PATCH', endpoint: $endpoint, query: $query);
 
         return $response;
     }
@@ -568,12 +550,7 @@ class PloiClient
 
         $this->handleErrors($response);
 
-        logger('Ploi API Request', [
-            'method' => 'DELETE',
-            'endpoint' => $endpoint,
-            'response' => $response->json(),
-            'status' => $response->status(),
-        ]);
+        $this->log(response: $response, method: 'DELETE', endpoint: $endpoint);
 
         return $response;
     }
@@ -615,5 +592,22 @@ class PloiClient
                 return $error;
             })
             ->implode(PHP_EOL);
+    }
+
+    private function log(
+        PromiseInterface|Response $response,
+        string $method,
+        string $endpoint,
+        array $query = [],
+    ) {
+        if (config('ploi-dashboard.log_requests')) {
+            logger('Ploi API Request', [
+                'method' => $method,
+                'endpoint' => $endpoint,
+                'query' => $query,
+                'response' => $response->json(),
+                'status' => $response->status(),
+            ]);
+        }
     }
 }
