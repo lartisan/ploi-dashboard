@@ -595,7 +595,7 @@ class PloiClient
     }
 
     private function log(
-        PromiseInterface|Response $response,
+        PromiseInterface | Response $response,
         string $method,
         string $endpoint,
         array $query = [],
