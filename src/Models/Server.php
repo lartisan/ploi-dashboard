@@ -34,7 +34,7 @@ class Server extends Model
         'updates' => 'json',
         'description' => 'string',
         'status_id' => 'integer',
-        'provider' => 'string',
+        'provider' => 'json',
         'created_at' => 'string',
         'created_human' => 'string',
         'uptime_human' => 'string',
@@ -46,6 +46,7 @@ class Server extends Model
         'updates' => 'array',
         'monitoring' => 'boolean',
         'opcache' => 'boolean',
+        'provider' => 'array',
         'created_at' => 'datetime',
     ];
 

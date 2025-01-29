@@ -37,15 +37,19 @@ class Site extends Model
         'has_staging' => 'boolean',
         'fastcgi_cache' => 'boolean',
         'notes' => 'string',
-        'disk_usage' => 'integer',
+        'disk_usage' => 'json',
         'created_at' => 'string',
+    ];
+
+    protected $casts = [
+        'disk_usage' => 'array',
     ];
 
     public function getRows(): array
     {
         try {
             return Ploi::make()->listSites()
-                ->map(fn (SiteResponseData $item) => $item->toLivewire())
+                ->map(fn (SiteResponseData $site) => collect($site->toLivewire())->map(fn ($item) => is_array($item) ? json_encode($item) : $item)->toArray())
                 ->toArray();
         } catch (Exception $e) {
             return [];
