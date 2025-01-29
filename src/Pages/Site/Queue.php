@@ -54,7 +54,7 @@ class Queue extends BasePage implements HasTable
         $this->resetData();
 
         try {
-            $this->website = Site::first()->load('server')->toArray();
+            $this->website = Site::firstWhere('id', config('ploi-dashboard.website_id'))->load('server')->toArray();
         } catch (Exception $e) {
             $this->website = [];
 

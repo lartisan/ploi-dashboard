@@ -45,7 +45,7 @@ class Site extends BasePage
         $this->deployScriptVariables = $this->getDeployScriptVariables();
 
         try {
-            $this->site = SiteModel::first()->load('server');
+            $this->site = SiteModel::firstWhere('id', config('ploi-dashboard.website_id'))->load('server');
             $this->data = $this->site->toArray();
 
             $this->form->fill($this->data);
