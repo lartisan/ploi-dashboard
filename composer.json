@@ -21,14 +21,14 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "calebporzio/sushi": "^2.5",
-        "filament/filament": "^3.0",
-        "spatie/laravel-package-tools": "^1.15.0"
+        "filament/filament": "^4.0",
+        "spatie/laravel-package-tools": "^1.92"
     },
     "require-dev": {
-        "laravel/pint": "^1.0",
-        "spatie/laravel-ray": "^1.26"
+        "laravel/pint": "^1.27",
+        "spatie/laravel-ray": "^1.43"
     },
     "autoload": {
         "psr-4": {
