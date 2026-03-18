@@ -23,7 +23,7 @@
     "require": {
         "php": "^8.2",
         "calebporzio/sushi": "^2.5",
-        "filament/filament": "^4.0",
+        "filament/filament": "^4.0|^5.0",
         "spatie/laravel-package-tools": "^1.92"
     },
     "require-dev": {
