@@ -30,6 +30,17 @@ readonly class BaseResponseData implements Wireable
 
     public static function fromLivewire($value): static
     {
+        $constructor = (new \ReflectionClass(static::class))->getConstructor();
+
+        if ($constructor) {
+            $known = array_flip(array_map(
+                fn (\ReflectionParameter $p) => $p->getName(),
+                $constructor->getParameters()
+            ));
+
+            $value = array_intersect_key($value, $known);
+        }
+
         return new static(...$value);
     }
 }
