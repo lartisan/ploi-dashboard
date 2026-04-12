@@ -14,6 +14,7 @@ use Filament\Tables\TablesServiceProvider;
 use Filament\Widgets\WidgetsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Lartisan\PloiDashboard\PloiDashboardServiceProvider;
+use Lartisan\PloiDashboard\Services\Ploi\PloiServiceProvider;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
@@ -45,6 +46,7 @@ class TestCase extends Orchestra
             TablesServiceProvider::class,
             WidgetsServiceProvider::class,
             PloiDashboardServiceProvider::class,
+            PloiServiceProvider::class,
         ];
     }
 
