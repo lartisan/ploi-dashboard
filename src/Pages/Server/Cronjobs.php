@@ -20,13 +20,13 @@ class Cronjobs extends BasePage implements HasTable
 {
     use Tables\Concerns\InteractsWithTable;
 
-    protected static ?string $navigationIcon = 'heroicon-o-clock';
+    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-clock';
 
-    protected static ?string $activeNavigationIcon = 'heroicon-s-clock';
+    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-clock';
 
-    protected static string $view = 'ploi-dashboard::pages.server.cronjobs';
+    protected string $view = 'ploi-dashboard::pages.server.cronjobs';
 
-    protected static ?string $navigationGroup = 'Ploi Management';
+    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?int $navigationSort = 3;
 

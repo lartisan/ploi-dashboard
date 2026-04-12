@@ -15,13 +15,13 @@ use Lartisan\PloiDashboard\Services\Ploi\Ploi;
 
 class Site extends BasePage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-globe-alt';
+    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-globe-alt';
 
-    protected static ?string $activeNavigationIcon = 'heroicon-s-globe-alt';
+    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-globe-alt';
 
-    protected static string $view = 'ploi-dashboard::pages.general';
+    protected string $view = 'ploi-dashboard::pages.general';
 
-    protected static ?string $navigationGroup = 'Ploi Management';
+    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?string $navigationLabel = 'Site';
 

@@ -3,8 +3,6 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/lartisan/ploi-dashboard.svg?style=flat-square)](https://packagist.org/packages/lartisan/ploi-dashboard)
 [![Total Downloads](https://img.shields.io/packagist/dt/lartisan/ploi-dashboard.svg?style=flat-square)](https://packagist.org/packages/lartisan/ploi-dashboard)
 
-![ploi-dashboard-og](https://filamentcomponents.com/plugins/ploi-dashboard.png)
-
 This is a package that brings the Ploi dashboard to Filament admin panel. Provide the server id and the id of the site you wish to manage and unlock the Ploi features straight in your Filament admin panel.
 
 ## Installation

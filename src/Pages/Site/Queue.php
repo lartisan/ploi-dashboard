@@ -19,13 +19,13 @@ class Queue extends BasePage implements HasTable
 {
     use Tables\Concerns\InteractsWithTable;
 
-    protected static ?string $navigationIcon = 'heroicon-o-code-bracket';
+    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-code-bracket';
 
-    protected static ?string $activeNavigationIcon = 'heroicon-s-code-bracket';
+    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-code-bracket';
 
-    protected static string $view = 'ploi-dashboard::pages.queue';
+    protected string $view = 'ploi-dashboard::pages.queue';
 
-    protected static ?string $navigationGroup = 'Ploi Management';
+    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?int $navigationSort = 2;
 

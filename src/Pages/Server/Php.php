@@ -13,13 +13,13 @@ use Livewire\Attributes\On;
 
 class Php extends BasePage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-code-bracket';
+    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-code-bracket';
 
-    protected static ?string $activeNavigationIcon = 'heroicon-s-code-bracket';
+    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-code-bracket';
 
-    protected static string $view = 'ploi-dashboard::pages.server.php';
+    protected string $view = 'ploi-dashboard::pages.server.php';
 
-    protected static ?string $navigationGroup = 'Ploi Management';
+    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?int $navigationSort = 1;
 

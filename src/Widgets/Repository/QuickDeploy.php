@@ -20,7 +20,7 @@ class QuickDeploy extends Widget implements HasForms
 
     protected int | string | array $columnSpan = 'full';
 
-    protected static string $view = 'ploi-dashboard::widgets.repository.quick-deploy';
+    protected string $view = 'ploi-dashboard::widgets.repository.quick-deploy';
 
     public array $website;
 

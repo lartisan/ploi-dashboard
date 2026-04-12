@@ -19,13 +19,13 @@ class Certificate extends BasePage implements HasTable
 {
     use Tables\Concerns\InteractsWithTable;
 
-    protected static ?string $navigationIcon = 'heroicon-o-lock-closed';
+    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-lock-closed';
 
-    protected static ?string $activeNavigationIcon = 'heroicon-s-lock-closed';
+    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-lock-closed';
 
-    protected static string $view = 'ploi-dashboard::pages.certificate';
+    protected string $view = 'ploi-dashboard::pages.certificate';
 
-    protected static ?string $navigationGroup = 'Ploi Management';
+    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?int $navigationSort = 3;
 

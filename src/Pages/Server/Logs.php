@@ -14,13 +14,13 @@ class Logs extends BasePage implements HasTable
 {
     use Tables\Concerns\InteractsWithTable;
 
-    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
+    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-clipboard-document-list';
 
-    protected static ?string $activeNavigationIcon = 'heroicon-s-clipboard-document-list';
+    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-clipboard-document-list';
 
-    protected static string $view = 'ploi-dashboard::pages.server.logs';
+    protected string $view = 'ploi-dashboard::pages.server.logs';
 
-    protected static ?string $navigationGroup = 'Ploi Management';
+    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?int $navigationSort = 6;
 

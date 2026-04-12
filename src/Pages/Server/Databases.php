@@ -24,13 +24,13 @@ class Databases extends BasePage implements HasTable
 {
     use InteractsWithTable;
 
-    protected static ?string $navigationIcon = 'heroicon-o-circle-stack';
+    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-circle-stack';
 
-    protected static ?string $activeNavigationIcon = 'heroicon-s-circle-stack';
+    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-circle-stack';
 
-    protected static string $view = 'ploi-dashboard::pages.server.databases';
+    protected string $view = 'ploi-dashboard::pages.server.databases';
 
-    protected static ?string $navigationGroup = 'Ploi Management';
+    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?int $navigationSort = 2;
 

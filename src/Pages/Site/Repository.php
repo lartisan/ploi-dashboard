@@ -11,13 +11,13 @@ use Throwable;
 
 class Repository extends BasePage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-share';
+    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-share';
 
-    protected static ?string $activeNavigationIcon = 'heroicon-s-share';
+    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-share';
 
-    protected static string $view = 'ploi-dashboard::pages.repository';
+    protected string $view = 'ploi-dashboard::pages.repository';
 
-    protected static ?string $navigationGroup = 'Ploi Management';
+    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?int $navigationSort = 5;
 

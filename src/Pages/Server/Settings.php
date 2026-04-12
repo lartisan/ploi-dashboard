@@ -12,13 +12,13 @@ use Lartisan\PloiDashboard\Services\Ploi\Ploi;
 
 class Settings extends BasePage
 {
-    protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
+    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-cog-6-tooth';
 
-    protected static ?string $activeNavigationIcon = 'heroicon-s-cog-6-tooth';
+    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-cog-6-tooth';
 
-    protected static string $view = 'ploi-dashboard::pages.server.settings';
+    protected string $view = 'ploi-dashboard::pages.server.settings';
 
-    protected static ?string $navigationGroup = 'Ploi Management';
+    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?int $navigationSort = 7;
 

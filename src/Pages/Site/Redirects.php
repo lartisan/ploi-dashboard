@@ -19,13 +19,13 @@ class Redirects extends BasePage implements HasTable
 {
     use Tables\Concerns\InteractsWithTable;
 
-    protected static ?string $navigationIcon = 'heroicon-o-arrows-right-left';
+    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-arrows-right-left';
 
-    protected static ?string $activeNavigationIcon = 'heroicon-s-arrows-right-left';
+    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-arrows-right-left';
 
-    protected static string $view = 'ploi-dashboard::pages.redirects';
+    protected string $view = 'ploi-dashboard::pages.redirects';
 
-    protected static ?string $navigationGroup = 'Ploi Management';
+    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?int $navigationSort = 6;
 

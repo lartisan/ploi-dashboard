@@ -21,13 +21,13 @@ class Server extends BasePage implements HasTable
 {
     use InteractsWithTable;
 
-    protected static ?string $navigationIcon = 'heroicon-o-server';
+    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-server';
 
-    protected static ?string $activeNavigationIcon = 'heroicon-s-server';
+    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-server';
 
-    protected static string $view = 'ploi-dashboard::pages.server.server';
+    protected string $view = 'ploi-dashboard::pages.server.server';
 
-    protected static ?string $navigationGroup = 'Ploi Management';
+    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
 
     protected ?string $heading = 'Server';
 
