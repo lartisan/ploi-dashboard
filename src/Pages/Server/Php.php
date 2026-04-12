@@ -4,7 +4,7 @@ namespace Lartisan\PloiDashboard\Pages\Server;
 
 use Exception;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Illuminate\Support\HtmlString;
 use Lartisan\PloiDashboard\Pages\BasePage;
 use Lartisan\PloiDashboard\Services\Ploi\Ploi;
@@ -56,13 +56,13 @@ class Php extends BasePage
         $this->record = Ploi::make()->getServer();
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $form): Schema
     {
         return $form
-            ->schema([
+            ->components([
                 Forms\Components\Section::make('OPcache')
                     ->columns(5)
-                    ->schema([
+                    ->components([
                         $this->getFormHeadingViewField(
                             name: 'op_cache',
                             description: 'OPcache improves PHP performance by storing precompiled script bytecode in shared memory, thereby removing the need for PHP to load and parse scripts on each request. When you enable OPcache, make sure you reload the PHP FPM worker after each deploy to clear cache memory.',
@@ -73,7 +73,7 @@ class Php extends BasePage
                         Forms\Components\Group::make()
                             ->columnStart(5)
                             ->columnSpan(1)
-                            ->schema([
+                            ->components([
                                 Forms\Components\Actions::make([
                                     Forms\Components\Actions\Action::make('Reload PHP FPM worker')
                                         ->label('Reload PHP FPM worker')
@@ -122,7 +122,7 @@ class Php extends BasePage
 
                 Forms\Components\Section::make('PHP version')
                     ->columns()
-                    ->schema([
+                    ->components([
                         $this->getFormHeadingViewField(
                             name: 'php_version',
                             description: $this->getDescription()
@@ -130,7 +130,7 @@ class Php extends BasePage
 
                         // Action when test domain is not enabled
                         Forms\Components\Group::make()
-                            ->schema([
+                            ->components([
                                 Forms\Components\Actions::make($this->getPhpVersionsActions()),
                             ]),
                     ]),

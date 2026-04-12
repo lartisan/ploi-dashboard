@@ -4,6 +4,7 @@ namespace Lartisan\PloiDashboard\Pages\Site;
 
 use Exception;
 use Filament\Forms;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Lartisan\PloiDashboard\Pages\BasePage;
 use Lartisan\PloiDashboard\Services\Ploi\Ploi;
@@ -50,19 +51,19 @@ class Repository extends BasePage
         }
     }
 
-    public function form(Forms\Form $form): Forms\Form
+    public function form(Schema $form): Schema
     {
         return $form
-            ->schema([
+            ->components([
                 // Repository
                 Forms\Components\Section::make('Repository')
                     ->id('installRepository')
-                    ->schema([
+                    ->components([
                         // Branch
                         Forms\Components\Group::make()
                             ->columnSpanFull()
                             ->columns(3)
-                            ->schema([
+                            ->components([
                                 $this->getFormHeadingViewField(
                                     name: 'branch_field',
                                     heading: 'Branch',
@@ -71,7 +72,7 @@ class Repository extends BasePage
 
                                 Forms\Components\Group::make()
                                     ->columnSpan(2)
-                                    ->schema([
+                                    ->components([
                                         Forms\Components\TextInput::make('repository.branch'),
                                     ]),
                             ]),
@@ -80,7 +81,7 @@ class Repository extends BasePage
                         Forms\Components\Group::make()
                             ->columnSpanFull()
                             ->columns(3)
-                            ->schema([
+                            ->components([
                                 $this->getFormHeadingViewField(
                                     name: 'repository_field',
                                     heading: 'Repository',
@@ -90,7 +91,7 @@ class Repository extends BasePage
                                 Forms\Components\Group::make()
                                     ->columnSpan(2)
                                     ->columns(3)
-                                    ->schema([
+                                    ->components([
                                         Forms\Components\ViewField::make('warning')
                                             ->columnSpanFull()
                                             ->view('ploi-dashboard::forms.fields.form-info')
@@ -108,7 +109,7 @@ class Repository extends BasePage
 
                                         Forms\Components\Group::make()
                                             ->columnSpan(2)
-                                            ->schema([
+                                            ->components([
                                                 Forms\Components\TextInput::make('name')
                                                     ->formatStateUsing(fn ($state) => sprintf('%s/%s', data_get($this->data, 'repository.user'), data_get($this->data, 'repository.name')))
                                                     ->label('Repository'),
@@ -142,11 +143,11 @@ class Repository extends BasePage
                     ->footerActionsAlignment(Alignment::Right),
 
                 Forms\Components\Section::make('Danger Zone')
-                    ->schema([
+                    ->components([
                         // Danger Zone
                         Forms\Components\Group::make()
                             ->columnSpanFull()
-                            ->schema([
+                            ->components([
                                 Forms\Components\ViewField::make('warning')
                                     // ->columnSpan(2)
                                     // ->columnStart(2)

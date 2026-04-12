@@ -5,6 +5,7 @@ namespace Lartisan\PloiDashboard\Pages\Site;
 use Exception;
 use Filament\Actions;
 use Filament\Forms;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\File;
@@ -62,12 +63,12 @@ class Site extends BasePage
         }
     }
 
-    public function form(Forms\Form $form): Forms\Form
+    public function form(Schema $form): Schema
     {
         return $form
-            ->schema([
+            ->components([
                 Forms\Components\Section::make('Deployment')
-                    ->schema([
+                    ->components([
                         Forms\Components\MarkdownEditor::make('deploy_script')
                             ->toolbarButtons(),
                     ])
@@ -190,7 +191,7 @@ class Site extends BasePage
                     ->heading(new HtmlString('<p>General &bull; <span class="text-gray-600">Like <code>{DATE}</code> to get the current date</span></p>'))
                     ->collapsible()
                     ->collapsed()
-                    ->schema([
+                    ->components([
                         Forms\Components\ViewField::make('General')
                             ->columnSpanFull()
                             ->view('ploi-dashboard::static.deploy-script-variables-table')
@@ -201,7 +202,7 @@ class Site extends BasePage
                     ->heading(new HtmlString('<p>Site &bull; <span class="text-gray-600">Like <code>{SITE_DOMAIN}</code> to get the current domain</span></p>'))
                     ->collapsible()
                     ->collapsed()
-                    ->schema([
+                    ->components([
                         Forms\Components\ViewField::make('General')
                             ->columnSpanFull()
                             ->view('ploi-dashboard::static.deploy-script-variables-table')
@@ -212,7 +213,7 @@ class Site extends BasePage
                     ->heading(new HtmlString('<p>Repository &bull; <span class="text-gray-600">Like <code>{BRANCH}</code> to get the current installed branch</span></p>'))
                     ->collapsible()
                     ->collapsed()
-                    ->schema([
+                    ->components([
                         Forms\Components\ViewField::make('General')
                             ->columnSpanFull()
                             ->view('ploi-dashboard::static.deploy-script-variables-table')

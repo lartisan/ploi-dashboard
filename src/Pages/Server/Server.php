@@ -56,10 +56,10 @@ class Server extends BasePage implements HasTable
     public function form(Schema $form): Schema
     {
         return $form
-            ->schema([
+            ->components([
                 Section::make('New site')
                     ->columns(3)
-                    ->schema([
+                    ->components([
                         $this->getFormHeadingViewField(
                             'new_queue',
                             description: 'Create a new site in your server here, we offer more options if you press Advanced settings, you can select a system user there or setup staging.'
@@ -67,14 +67,14 @@ class Server extends BasePage implements HasTable
 
                         Group::make()
                             ->columnSpan(2)
-                            ->schema([
+                            ->components([
                                 TextInput::make('root_domain')
                                     ->label('Domain')
                                     ->required(),
 
                                 Group::make()
                                     ->visible(fn () => $this->showAdvancedSettings)
-                                    ->schema([
+                                    ->components([
                                         TextInput::make('web_directory')
                                             ->required(),
 

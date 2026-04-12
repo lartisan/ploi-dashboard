@@ -4,6 +4,7 @@ namespace Lartisan\PloiDashboard\Pages\Server;
 
 use Exception;
 use Filament\Forms;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
 use Filament\Tables\Contracts\HasTable;
@@ -59,13 +60,13 @@ class Cronjobs extends BasePage implements HasTable
         }
     }
 
-    public function form(Forms\Form $form): Forms\Form
+    public function form(Schema $form): Schema
     {
         return $form
-            ->schema([
+            ->components([
                 Forms\Components\Section::make('Cronjobs')
                     ->columns(3)
-                    ->schema([
+                    ->components([
                         $this->getFormHeadingViewField(
                             name: 'new_cronjob',
                             heading: 'New cronjob',
@@ -74,7 +75,7 @@ class Cronjobs extends BasePage implements HasTable
 
                         Forms\Components\Group::make()
                             ->columnSpan(2)
-                            ->schema([
+                            ->components([
                                 Forms\Components\TextInput::make('command')
                                     ->helperText(new HtmlString('When using PHP, you may use aliases to use another PHP version, like for example <code>php8.0</code> instead of <code>php</code>.')),
 

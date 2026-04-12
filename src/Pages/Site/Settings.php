@@ -4,6 +4,7 @@ namespace Lartisan\PloiDashboard\Pages\Site;
 
 use Exception;
 use Filament\Forms;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Illuminate\Support\HtmlString;
 use Lartisan\PloiDashboard\Pages\BasePage;
@@ -61,10 +62,10 @@ class Settings extends BasePage
         $this->form->fill($this->data);
     }
 
-    public function form(Forms\Form $form): Forms\Form
+    public function form(Schema $form): Schema
     {
         return $form
-            ->schema([
+            ->components([
                 // Domain
                 $this->getDomainSectionFields(),
 
@@ -86,7 +87,7 @@ class Settings extends BasePage
     {
         return Forms\Components\Section::make('Settings')
             ->columns(3)
-            ->schema([
+            ->components([
                 $this->getFormHeadingViewField(
                     name: 'site_domain',
                     heading: 'Site domain',
@@ -95,7 +96,7 @@ class Settings extends BasePage
 
                 Forms\Components\Group::make()
                     ->columnSpan(2)
-                    ->schema([
+                    ->components([
                         Forms\Components\TextInput::make('domain'),
                     ]),
             ])
@@ -120,11 +121,11 @@ class Settings extends BasePage
     {
         return Forms\Components\Section::make('Robots')
             ->columns(3)
-            ->schema([
+            ->components([
                 Forms\Components\Group::make()
                     ->columnStart(2)
                     ->columnSpan(2)
-                    ->schema([
+                    ->components([
                         Forms\Components\Checkbox::make('disable_robots')
                             ->helperText('This will add a header to your site to block the search engine robots. It is up to the search engines to honor this request.'),
                     ]),
@@ -154,7 +155,7 @@ class Settings extends BasePage
     {
         return Forms\Components\Section::make('Test domain')
             ->columns(5)
-            ->schema([
+            ->components([
                 $this->getFormHeadingViewField(
                     name: 'test_domain',
                     description: 'Test domain is a great way to try out your application before going live or switching your main domains DNS. You will get a URL from us to use to try out your application.
@@ -167,7 +168,7 @@ class Settings extends BasePage
                     ->visible(fn () => $this->data['test_domain'] === null)
                     ->columnStart(5)
                     ->columnSpan(1)
-                    ->schema([
+                    ->components([
                         Forms\Components\Actions::make([
                             Forms\Components\Actions\Action::make('Enable test domain')
                                 ->action(function () {
@@ -223,7 +224,7 @@ class Settings extends BasePage
     {
         return Forms\Components\Section::make('PHP Version ' . $this->data['php_version'])
             ->columns(5)
-            ->schema([
+            ->components([
                 $this->getFormHeadingViewField(
                     name: 'test_domain',
                     description: 'You can change the used PHP version here for this site. This list displays all the installed PHP versions you have. If you need another version not listed here, you can head over to the PHP tab inside your server to install additional versions.',
@@ -235,18 +236,18 @@ class Settings extends BasePage
                     // ->visible(fn() => $this->data['test_domain'] === null)
                     ->columnStart(5)
                     ->columnSpan(1)
-                    ->schema($this->setPhpVersionsFromServer()),
+                    ->components($this->setPhpVersionsFromServer()),
             ]);
     }
 
     private function getDeleteSiteSectionFields(): Forms\Components\Section
     {
         return Forms\Components\Section::make('Danger Zone')
-            ->schema([
+            ->components([
                 // Danger Zone
                 Forms\Components\Group::make()
                     ->columnSpanFull()
-                    ->schema([
+                    ->components([
                         Forms\Components\ViewField::make('warning')
                             ->view('ploi-dashboard::forms.fields.form-warning')
                             ->viewData([

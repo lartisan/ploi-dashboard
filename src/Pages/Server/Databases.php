@@ -4,7 +4,7 @@ namespace Lartisan\PloiDashboard\Pages\Server;
 
 use Exception;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -61,14 +61,14 @@ class Databases extends BasePage implements HasTable
         $this->sites = Ploi::make()->listSites();
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $form): Schema
     {
         return $form
-            ->schema([
+            ->components([
                 Forms\Components\Section::make('Databases')
                     ->description($this->databasesCount . ' databases')
                     ->columns(3)
-                    ->schema(fn () => $this->getNewDatabaseSchemaFields())
+                    ->components(fn () => $this->getNewDatabaseSchemaFields())
                     ->footerActions([
                         Forms\Components\Actions\Action::make('Add database')
                             ->action(function ($state) {
@@ -176,7 +176,7 @@ class Databases extends BasePage implements HasTable
 
             Forms\Components\Group::make()
                 ->columnSpan(2)
-                ->schema([
+                ->components([
                     Forms\Components\TextInput::make('name')
                         ->required(),
 

@@ -4,6 +4,7 @@ namespace Lartisan\PloiDashboard\Pages\Server;
 
 use Exception;
 use Filament\Forms;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
 use Filament\Tables\Contracts\HasTable;
@@ -43,7 +44,7 @@ class Network extends BasePage implements HasTable
         return config('ploi-dashboard.enabled_modules.server.network');
     }
 
-    public function form(Forms\Form $form): Forms\Form
+    public function form(Schema $form): Schema
     {
         return $form
             ->schema([

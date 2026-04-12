@@ -4,6 +4,7 @@ namespace Lartisan\PloiDashboard\Pages\Site;
 
 use Exception;
 use Filament\Forms;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
 use Filament\Tables\Contracts\HasTable;
@@ -72,7 +73,7 @@ class Queue extends BasePage implements HasTable
         ];
     }
 
-    public function form(Forms\Form $form): Forms\Form
+    public function form(Schema $form): Schema
     {
         return $form
             ->schema([

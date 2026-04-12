@@ -4,6 +4,7 @@ namespace Lartisan\PloiDashboard\Pages\Server;
 
 use Exception;
 use Filament\Forms;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
 use Filament\Tables\Contracts\HasTable;
@@ -43,13 +44,13 @@ class Daemons extends BasePage implements HasTable
         return config('ploi-dashboard.enabled_modules.server.daemons');
     }
 
-    public function form(Forms\Form $form): Forms\Form
+    public function form(Schema $form): Schema
     {
         return $form
-            ->schema([
+            ->components([
                 Forms\Components\Section::make('Daemons')
                     ->columns(3)
-                    ->schema([
+                    ->components([
                         $this->getFormHeadingViewField(
                             name: 'new_daemon',
                             heading: 'New daemon',
@@ -58,7 +59,7 @@ class Daemons extends BasePage implements HasTable
 
                         Forms\Components\Group::make()
                             ->columnSpan(2)
-                            ->schema([
+                            ->components([
                                 Forms\Components\TextInput::make('command')
                                     ->required(),
 

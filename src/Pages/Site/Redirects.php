@@ -4,6 +4,7 @@ namespace Lartisan\PloiDashboard\Pages\Site;
 
 use Exception;
 use Filament\Forms;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
 use Filament\Tables\Contracts\HasTable;
@@ -50,13 +51,13 @@ class Redirects extends BasePage implements HasTable
         $this->form->fill($this->data);
     }
 
-    public function form(Forms\Form $form): Forms\Form
+    public function form(Schema $form): Schema
     {
         return $form
-            ->schema([
+            ->components([
                 Forms\Components\Section::make('Redirects')
                     ->columns(3)
-                    ->schema([
+                    ->components([
                         $this->getFormHeadingViewField(
                             name: 'new_certificate',
                             heading: 'New redirect',
@@ -65,7 +66,7 @@ class Redirects extends BasePage implements HasTable
 
                         Forms\Components\Group::make()
                             ->columnSpan(2)
-                            ->schema([
+                            ->components([
                                 Forms\Components\TextInput::make('redirect_from'),
 
                                 Forms\Components\TextInput::make('redirect_to'),

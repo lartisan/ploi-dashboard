@@ -4,7 +4,7 @@ namespace Lartisan\PloiDashboard\Pages\Server;
 
 use Exception;
 use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Lartisan\PloiDashboard\Pages\BasePage;
 use Lartisan\PloiDashboard\Services\Ploi\Ploi;
@@ -52,13 +52,13 @@ class Settings extends BasePage
         ];
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $form): Schema
     {
         return $form
-            ->schema([
+            ->components([
                 Forms\Components\Section::make('Server information')
                     ->columns(3)
-                    ->schema([
+                    ->components([
                         $this->getFormHeadingViewField(
                             'new_queue',
                             description: 'Edit the server\'s details here.'
@@ -66,7 +66,7 @@ class Settings extends BasePage
 
                         Forms\Components\Group::make()
                             ->columnSpan(2)
-                            ->schema([
+                            ->components([
                                 Forms\Components\TextInput::make('name')
                                     ->label('Server name')
                                     ->required(),
