@@ -33,13 +33,14 @@ it('getServer returns a ServerResponseData when the API response is valid', func
                 'type' => 'server',
                 'database_type' => 'mysql',
                 'name' => 'hostinger-vps',
+                'tags' => null,
                 'ip_address' => '147.79.101.115',
                 'internal_ip' => null,
-                'ssh_port' => '22',
-                'reboot_required' => 'true',
+                'ssh_port' => 22,
+                'reboot_required' => true,
                 'php_version' => 8.3,
                 'php_cli_version' => '8.4',
-                'mysql_version' => 8.0,
+                'mysql_version' => 8,
                 'sites_count' => 6,
                 'monitoring' => true,
                 'opcache' => true,
@@ -51,8 +52,6 @@ it('getServer returns a ServerResponseData when the API response is valid', func
                 'created_at' => '2024-11-03 20:16:58',
                 'created_human' => '1 year ago',
                 'uptime_human' => 'Online for 84 days',
-                // Extra key the real API sends — should be ignored:
-                'tags' => null,
             ],
         ], 200),
     ]);
@@ -87,15 +86,16 @@ it('getSite returns a SiteResponseData when the API response is valid', function
                 'status' => 'active',
                 'server_id' => 81941,
                 'domain' => 'loto.scalablecodes.com',
+                'tags' => null,
                 'test_domain' => null,
-                'deploy_script' => 'git pull',
-                'deploy_webhook_url' => 'https://ploi.io/webhooks/deploy',
+                'deploy_script' => "cd /home/ploi/loto.scalablecodes.com\ngit pull origin dev\n\nphp8.4 /usr/local/bin/composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev\n\nphp8.4 artisan migrate --force",
+                'deploy_webhook_url' => 'https://ploi.io/webhooks/servers/81941/sites/358580/deploy?token=dStLgau10XaWkvDYhj3WCU3HzFbvFYICwmCA18EJ2HUOFHbXFz',
                 'web_directory' => '/public',
                 'project_type' => 'laravel',
                 'project_root' => '/',
                 'last_deploy_at' => '2026-04-12 19:09:17',
                 'system_user' => 'ploi',
-                'php_version' => '8.4',
+                'php_version' => 8.4,
                 'health_url' => null,
                 'disable_robots' => true,
                 'has_repository' => true,
@@ -103,11 +103,9 @@ it('getSite returns a SiteResponseData when the API response is valid', function
                 'has_staging' => false,
                 'fastcgi_cache' => false,
                 'notes' => null,
-                'disk_usage' => null,
-                'created_at' => '2026-03-21 14:45:03',
-                // Extra keys the real API sends:
-                'tags' => null,
                 'suspension' => null,
+                'disk_usage' => ['bytes' => 176912715, 'human' => '168.72 MB'],
+                'created_at' => '2026-03-21 14:45:03',
             ],
         ], 200),
     ]);
@@ -136,7 +134,16 @@ it('getDatabases returns a Collection of DatabaseResponseData', function () {
                     'status' => 'active',
                     'site' => null,
                     'created_at' => '2024-11-08 00:09:11',
-                    'users' => [],
+                    'users' => [
+                        [
+                            'id' => 179032,
+                            'user' => 'fc_dev',
+                            'remote' => false,
+                            'remote_ip' => '%',
+                            'readonly' => false,
+                            'created_at' => '2024-11-08 00:09:11',
+                        ],
+                    ],
                 ],
                 [
                     'id' => 205748,
@@ -146,6 +153,33 @@ it('getDatabases returns a Collection of DatabaseResponseData', function () {
                     'status' => 'active',
                     'site' => ['id' => 253253, 'root_domain' => 'filamentcomponents.com'],
                     'created_at' => '2024-11-08 00:48:22',
+                    'users' => [
+                        [
+                            'id' => 179180,
+                            'user' => 'cristian_iosif_local',
+                            'remote' => true,
+                            'remote_ip' => '%',
+                            'readonly' => false,
+                            'created_at' => '2024-11-09 14:22:34',
+                        ],
+                        [
+                            'id' => 234590,
+                            'user' => 'fc_prod',
+                            'remote' => false,
+                            'remote_ip' => '%',
+                            'readonly' => false,
+                            'created_at' => '2026-03-04 21:16:06',
+                        ],
+                    ],
+                ],
+                [
+                    'id' => 207617,
+                    'type' => 'mysql',
+                    'name' => 'scalablecodes',
+                    'server_id' => 81941,
+                    'status' => 'active',
+                    'site' => null,
+                    'created_at' => '2024-11-15 20:45:26',
                     'users' => [],
                 ],
             ],
@@ -155,10 +189,10 @@ it('getDatabases returns a Collection of DatabaseResponseData', function () {
     $result = makeClient()->getDatabases();
 
     expect($result)->toBeInstanceOf(Collection::class)
-        ->and($result)->toHaveCount(2)
+        ->and($result)->toHaveCount(3)
         ->and($result->first())->toBeInstanceOf(DatabaseResponseData::class)
         ->and($result->first()->name)->toBe('fc_dev')
-        ->and($result->last()->site)->toBe(['id' => 253253, 'root_domain' => 'filamentcomponents.com']);
+        ->and($result->last()->site)->toBeNull();
 });
 
 // ---------------------------------------------------------------------------
@@ -172,7 +206,7 @@ it('getCronjobs returns a Collection of CronjobResponseData', function () {
                 [
                     'id' => 273465,
                     'status' => 'active',
-                    'command' => 'php8.4 /home/ploi/site.com/artisan schedule:run',
+                    'command' => 'php8.4 /home/ploi/filamentcomponents.com/artisan logs:clear',
                     'user' => 'ploi',
                     'frequency' => '* * * * *',
                     'created_at' => '2026-01-12 17:29:00',
@@ -180,10 +214,26 @@ it('getCronjobs returns a Collection of CronjobResponseData', function () {
                 [
                     'id' => 289838,
                     'status' => 'active',
-                    'command' => 'php8.4 /home/ploi/other.com/artisan logs:clear',
+                    'command' => 'php8.4 /home/ploi/architect.filamentcomponents.com/artisan schedule:run',
                     'user' => 'ploi',
-                    'frequency' => '0 * * * *',
+                    'frequency' => '* * * * *',
                     'created_at' => '2026-03-21 17:41:46',
+                ],
+                [
+                    'id' => 291475,
+                    'status' => 'active',
+                    'command' => 'php8.4 /home/ploi/investingstrategy.online/artisan schedule:run',
+                    'user' => 'ploi',
+                    'frequency' => '* * * * *',
+                    'created_at' => '2026-03-29 01:07:42',
+                ],
+                [
+                    'id' => 291727,
+                    'status' => 'active',
+                    'command' => 'php8.4 /home/ploi/filamentcomponents.com/artisan schedule:run',
+                    'user' => 'ploi',
+                    'frequency' => '* * * * *',
+                    'created_at' => '2026-03-30 15:40:29',
                 ],
             ],
         ], 200),
@@ -192,10 +242,10 @@ it('getCronjobs returns a Collection of CronjobResponseData', function () {
     $result = makeClient()->getCronjobs();
 
     expect($result)->toBeInstanceOf(Collection::class)
-        ->and($result)->toHaveCount(2)
+        ->and($result)->toHaveCount(4)
         ->and($result->first())->toBeInstanceOf(CronjobResponseData::class)
-        ->and($result->first()->frequency)->toBe('* * * * *')
-        ->and($result->last()->frequency)->toBe('0 * * * *');
+        ->and($result->first()->command)->toBe('php8.4 /home/ploi/filamentcomponents.com/artisan logs:clear')
+        ->and($result->first()->frequency)->toBe('* * * * *');
 });
 
 // ---------------------------------------------------------------------------
