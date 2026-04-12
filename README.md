@@ -5,6 +5,9 @@
 
 This is a package that brings the Ploi dashboard to Filament admin panel. Provide the server id and the id of the site you wish to manage and unlock the Ploi features straight in your Filament admin panel.
 
+<img width="1376" height="768" alt="PloiDashboard Poster" src="https://github.com/user-attachments/assets/de4486b2-4698-405d-8c08-2ed7c28d4261" />
+
+
 ## Requirements
 
 - PHP 8.2+
