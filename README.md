@@ -1,7 +1,14 @@
 # Ploi Dashboard
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/lartisan/ploi-dashboard.svg?style=flat-square)](https://packagist.org/packages/lartisan/ploi-dashboard)
-[![Total Downloads](https://img.shields.io/packagist/dt/lartisan/ploi-dashboard.svg?style=flat-square)](https://packagist.org/packages/lartisan/ploi-dashboard)
+<div align="center" class="filament-hidden">
+
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/lartisan/ploi-dashboard.svg)](https://packagist.org/packages/lartisan/ploi-dashboard)
+[![GitHub Tests](https://img.shields.io/github/actions/workflow/status/lartisan/ploi-dashboard/tests.yml?label=Tests)](https://github.com/lartisan/ploi-dashboard/actions)
+[![Total Downloads](https://img.shields.io/packagist/dt/lartisan/ploi-dashboard.svg)](https://packagist.org/packages/lartisan/ploi-dashboard)
+[![License](https://img.shields.io/packagist/l/lartisan/ploi-dashboard.svg)](https://packagist.org/packages/lartisan/ploi-dashboard)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-architect.filamentcomponents.com-blue)](https://architect.filamentcomponents.com/)
+
+</div>
 
 This is a package that brings the Ploi dashboard to Filament admin panel. Provide the server id and the id of the site you wish to manage and unlock the Ploi features straight in your Filament admin panel.
 
