@@ -32,7 +32,7 @@ class Ploi
         return $this->client->listServers();
     }
 
-    public function getServer(): ServerResponseData
+    public function getServer(): ?ServerResponseData
     {
         return $this->client->getServer();
     }

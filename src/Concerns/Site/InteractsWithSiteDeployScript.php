@@ -6,6 +6,7 @@ use Filament\Forms;
 use Filament\Forms\Components\Actions;
 use Filament\Infolists;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Schema;
 use Lartisan\PloiDashboard\Services\Ploi\Ploi;
 
 trait InteractsWithSiteDeployScript
@@ -25,10 +26,10 @@ trait InteractsWithSiteDeployScript
             ->inlineLabel();
     }
 
-    protected function updateDeployScriptForm(): ?Forms\Form
+    protected function updateDeployScriptForm(): ?Schema
     {
         return $this->makeForm()
-            ->schema([
+            ->components([
                 Forms\Components\MarkdownEditor::make('website.deploy_script')
                     ->label('Deploy Script')
                     ->required()

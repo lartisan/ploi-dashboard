@@ -6,6 +6,7 @@ use Filament\Forms;
 use Filament\Forms\Components\Actions;
 use Filament\Infolists;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Schema;
 use Lartisan\PloiDashboard\Services\Ploi\Ploi;
 
 trait InteractsWithSiteDomain
@@ -23,10 +24,10 @@ trait InteractsWithSiteDomain
             ->inlineLabel();
     }
 
-    protected function changeDomainForm(): ?Forms\Form
+    protected function changeDomainForm(): ?Schema
     {
         return $this->makeForm()
-            ->schema([
+            ->components([
                 Forms\Components\TextInput::make('website.domain')
                     ->label('Domain')
                     ->required()

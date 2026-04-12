@@ -121,7 +121,7 @@ class Site extends BasePage
 
                         return [
                             Forms\Components\MarkdownEditor::make('content')
-                                ->toolbarButtons()
+                                ->toolbarButtons([])
                                 ->default($data)
                                 ->required(),
                         ];

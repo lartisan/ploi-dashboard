@@ -3,8 +3,10 @@
 namespace Lartisan\PloiDashboard\Pages\Server;
 
 use Exception;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
@@ -86,7 +88,7 @@ class Settings extends BasePage
                             ]),
                     ])
                     ->footerActions([
-                        Forms\Components\Actions\Action::make('Save')
+                        Action::make('Save')
                             ->action(function (array $state) {
                                 $this->validate();
 

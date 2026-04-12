@@ -1,5 +1,5 @@
 <div class="flex items-center p-4 mb-4"
-     style="background-color: #172554; border-left: solid 4px; border-color: #7dd3fc; color: #7dd3fc"
+     style="background-color: #172554; border-left: solid 4px; border-color: #7dd3fc; color: #7dd3fc;padding: calc(var(--spacing) * 4); margin-bottom: calc(var(--spacing) * 4);"
 >
     <div class="ms-3 font-medium">
         {{ $text }}

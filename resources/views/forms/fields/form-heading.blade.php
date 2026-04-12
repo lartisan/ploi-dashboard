@@ -11,7 +11,7 @@
             @endisset
 
             @isset($description)
-                <p class="fi-section-header-description overflow-hidden break-words text-sm text-gray-500 dark:text-gray-400">
+                <p class="fi-section-header-description overflow-hidden wrap-break-word text-sm text-gray-500 dark:text-gray-400">
                     {!! nl2br($description) !!}
                 </p>
             @endisset
@@ -19,9 +19,9 @@
 
         @isset($action)
             <div class="w-1/2 grid flex-1 gap-y-1 justify-end">
-                <x-filament::button wire:click="{{ $action }}">
+                {{--<x-filament::button wire:click="{{ $action }}">
                     {{ $actionLabel }}
-                </x-filament::button>
+                </x-filament::button>--}}
             </div>
         @endisset
     </div>

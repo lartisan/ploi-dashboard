@@ -2,11 +2,12 @@
 
 namespace Lartisan\PloiDashboard\Widgets\Repository;
 
-use Filament\Forms;
+use Filament\Actions\Action;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Components\Actions as SchemaActions;
+use Filament\Schemas\Schema;
 use Filament\Widgets\Widget;
 use Throwable;
 
@@ -29,12 +30,12 @@ class QuickDeploy extends Widget implements HasForms
         $this->form->fill();
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $form): Schema
     {
         return $form
-            ->schema([
-                Forms\Components\Actions::make([
-                    Forms\Components\Actions\Action::make('Enable Quick Deploy')
+            ->components([
+                SchemaActions::make([
+                    Action::make('Enable Quick Deploy')
                         ->visible(fn () => true)
                         ->action(function () {
                             try {

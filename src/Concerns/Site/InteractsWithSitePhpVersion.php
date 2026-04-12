@@ -6,6 +6,7 @@ use Filament\Forms;
 use Filament\Forms\Components\Actions;
 use Filament\Infolists;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Schema;
 use Lartisan\PloiDashboard\Services\Ploi\Ploi;
 
 trait InteractsWithSitePhpVersion
@@ -23,10 +24,10 @@ trait InteractsWithSitePhpVersion
             ->inlineLabel();
     }
 
-    protected function changePhpVersionForm(): ?Forms\Form
+    protected function changePhpVersionForm(): ?Schema
     {
         return $this->makeForm()
-            ->schema([
+            ->components([
                 Forms\Components\Select::make('website.php_version')
                     ->native(false)
                     ->label('PhpVersion')
