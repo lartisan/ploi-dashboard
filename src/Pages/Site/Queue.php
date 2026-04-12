@@ -5,6 +5,7 @@ namespace Lartisan\PloiDashboard\Pages\Site;
 use Exception;
 use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Schemas\Components\Group;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
@@ -87,7 +88,7 @@ class Queue extends BasePage implements HasTable
                             description: 'You can create queue workers here to process your jobs. This is especially useful when you have a Laravel project.',
                         ),
 
-                        Forms\Components\Group::make()
+                        Group::make()
                             ->columnSpan(2)
                             ->schema([
                                 Forms\Components\Select::make('php_version')
@@ -108,7 +109,7 @@ class Queue extends BasePage implements HasTable
 
                                 Forms\Components\TextInput::make('queue'),
 
-                                Forms\Components\Group::make()
+                                Group::make()
                                     ->columns()
                                     ->schema([
                                         Forms\Components\TextInput::make('maximum_seconds')
@@ -120,7 +121,7 @@ class Queue extends BasePage implements HasTable
                                             ->helperText('Number of seconds to sleep when no job is available'),
                                     ]),
 
-                                Forms\Components\Group::make()
+                                Group::make()
                                     ->columns()
                                     ->schema([
                                         Forms\Components\TextInput::make('processes')
@@ -130,7 +131,7 @@ class Queue extends BasePage implements HasTable
                                             ->helperText('Number of times to attempt a job before logging it failed'),
                                     ]),
 
-                                Forms\Components\Group::make()
+                                Group::make()
                                     ->columns()
                                     ->schema([
                                         Forms\Components\TextInput::make('backoff')

@@ -4,8 +4,8 @@ namespace Lartisan\PloiDashboard\Pages\Server;
 
 use Exception;
 use Filament\Actions\Action;
-use Filament\Forms;
 use Filament\Schemas\Components\Actions;
+use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\HtmlString;
@@ -73,7 +73,7 @@ class Php extends BasePage
                         ),
 
                         // Action when test domain is not enabled
-                        Forms\Components\Group::make()
+                        Group::make()
                             ->columnStart(5)
                             ->columnSpan(1)
                             ->components([
@@ -132,7 +132,7 @@ class Php extends BasePage
                         ),
 
                         // Action when test domain is not enabled
-                        Forms\Components\Group::make()
+                        Group::make()
                             ->components([
                                 Actions::make($this->getPhpVersionsActions()),
                             ]),

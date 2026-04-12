@@ -5,6 +5,7 @@ namespace Lartisan\PloiDashboard\Pages\Server;
 use Exception;
 use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
@@ -59,7 +60,7 @@ class Daemons extends BasePage implements HasTable
                             description: 'Daemons are used to keep processes alive on your server. It will configure a supervisor worker for you and keep it running. For example, if you have a NodeJS server that you want to keep running, you can configure this here, and Ploi will take care of the rest.',
                         ),
 
-                        Forms\Components\Group::make()
+                        Group::make()
                             ->columnSpan(2)
                             ->components([
                                 Forms\Components\TextInput::make('command')

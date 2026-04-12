@@ -5,6 +5,7 @@ namespace Lartisan\PloiDashboard\Pages\Site;
 use Exception;
 use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Schemas\Components\Group;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
@@ -65,7 +66,7 @@ class Redirects extends BasePage implements HasTable
                             description: $this->getDescription(),
                         ),
 
-                        Forms\Components\Group::make()
+                        Group::make()
                             ->columnSpan(2)
                             ->components([
                                 Forms\Components\TextInput::make('redirect_from'),

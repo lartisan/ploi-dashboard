@@ -5,6 +5,7 @@ namespace Lartisan\PloiDashboard\Pages\Server;
 use Exception;
 use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Schemas\Components\Group;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
@@ -175,7 +176,7 @@ class Databases extends BasePage implements HasTable
         $newDatabaseFields = [
             $this->getFormHeadingViewField('new_database', 'New database', 'Create a new database here.'),
 
-            Forms\Components\Group::make()
+            Group::make()
                 ->columnSpan(2)
                 ->components([
                     Forms\Components\TextInput::make('name')

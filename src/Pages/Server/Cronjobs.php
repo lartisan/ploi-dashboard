@@ -5,6 +5,7 @@ namespace Lartisan\PloiDashboard\Pages\Server;
 use Exception;
 use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
@@ -76,7 +77,7 @@ class Cronjobs extends BasePage implements HasTable
                             description: 'Cronjobs are used to execute tasks on a interval, this makes it easy to automate repetitive tasks.',
                         ),
 
-                        Forms\Components\Group::make()
+                        Group::make()
                             ->columnSpan(2)
                             ->components([
                                 Forms\Components\TextInput::make('command')

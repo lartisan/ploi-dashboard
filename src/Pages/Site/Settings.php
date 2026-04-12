@@ -6,6 +6,7 @@ use Exception;
 use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Schemas\Components\Actions;
+use Filament\Schemas\Components\Group;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Illuminate\Support\HtmlString;
@@ -96,7 +97,7 @@ class Settings extends BasePage
                     description: 'You can update your site domain here, please be aware of the fact that your cronjobs and all other scripts that are pointed to this directory <code>/home/ploi/' . $this->data['domain'] . '</code> will not be accessible anymore. We also automatically delete any SSL certificates that contains this domain name.',
                 ),
 
-                Forms\Components\Group::make()
+                Group::make()
                     ->columnSpan(2)
                     ->components([
                         Forms\Components\TextInput::make('domain'),
@@ -124,7 +125,7 @@ class Settings extends BasePage
         return Section::make('Robots')
             ->columns(3)
             ->components([
-                Forms\Components\Group::make()
+                Group::make()
                     ->columnStart(2)
                     ->columnSpan(2)
                     ->components([
@@ -166,7 +167,7 @@ class Settings extends BasePage
                 ),
 
                 // Action when test domain is not enabled
-                Forms\Components\Group::make()
+                Group::make()
                     ->visible(fn () => $this->data['test_domain'] === null)
                     ->columnStart(5)
                     ->columnSpan(1)
@@ -234,7 +235,7 @@ class Settings extends BasePage
                 ),
 
                 // Action when test domain is not enabled
-                Forms\Components\Group::make()
+                Group::make()
                     // ->visible(fn() => $this->data['test_domain'] === null)
                     ->columnStart(5)
                     ->columnSpan(1)
@@ -247,7 +248,7 @@ class Settings extends BasePage
         return Section::make('Danger Zone')
             ->components([
                 // Danger Zone
-                Forms\Components\Group::make()
+                Group::make()
                     ->columnSpanFull()
                     ->components([
                         Forms\Components\ViewField::make('warning')

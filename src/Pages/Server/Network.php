@@ -5,6 +5,7 @@ namespace Lartisan\PloiDashboard\Pages\Server;
 use Exception;
 use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Schemas\Components\Group;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
@@ -58,7 +59,7 @@ class Network extends BasePage implements HasTable
                             description: 'You can manage your firewall rules here, if you have a additional service to open a port for like a socket server, this is the place to do so.',
                         ),
 
-                        Forms\Components\Group::make()
+                        Group::make()
                             ->columnSpan(2)
                             ->schema([
                                 Forms\Components\TextInput::make('name')

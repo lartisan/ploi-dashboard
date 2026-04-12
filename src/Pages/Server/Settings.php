@@ -3,8 +3,8 @@
 namespace Lartisan\PloiDashboard\Pages\Server;
 
 use Exception;
-use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
@@ -66,7 +66,7 @@ class Settings extends BasePage
                             description: 'Edit the server\'s details here.'
                         ),
 
-                        Forms\Components\Group::make()
+                        Group::make()
                             ->columnSpan(2)
                             ->components([
                                 Forms\Components\TextInput::make('name')
@@ -86,7 +86,7 @@ class Settings extends BasePage
                             ]),
                     ])
                     ->footerActions([
-                        Action::make('Save')
+                        Forms\Components\Actions\Action::make('Save')
                             ->action(function (array $state) {
                                 $this->validate();
 

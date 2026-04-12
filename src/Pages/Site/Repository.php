@@ -5,6 +5,7 @@ namespace Lartisan\PloiDashboard\Pages\Site;
 use Exception;
 use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Schemas\Components\Group;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Lartisan\PloiDashboard\Pages\BasePage;
@@ -61,7 +62,7 @@ class Repository extends BasePage
                     ->id('installRepository')
                     ->components([
                         // Branch
-                        Forms\Components\Group::make()
+                        Group::make()
                             ->columnSpanFull()
                             ->columns(3)
                             ->components([
@@ -71,7 +72,7 @@ class Repository extends BasePage
                                     description: 'Ploi uses this branch to gather details of the latest commit when you deploy your application. You should verify that this branch matches the branch in your deployment script and the branch that is actually deployed on your server.',
                                 ),
 
-                                Forms\Components\Group::make()
+                                Group::make()
                                     ->columnSpan(2)
                                     ->components([
                                         Forms\Components\TextInput::make('repository.branch'),
@@ -79,7 +80,7 @@ class Repository extends BasePage
                             ]),
 
                         // Repository
-                        Forms\Components\Group::make()
+                        Group::make()
                             ->columnSpanFull()
                             ->columns(3)
                             ->components([
@@ -89,7 +90,7 @@ class Repository extends BasePage
                                     description: 'Changing this will update the Git remote URL on your server. Your site will still be available as we do not perform a deployment. The changed Git repository should contain the same repository and history as the previous one.',
                                 ),
 
-                                Forms\Components\Group::make()
+                                Group::make()
                                     ->columnSpan(2)
                                     ->columns(3)
                                     ->components([
@@ -108,7 +109,7 @@ class Repository extends BasePage
                                                 'gitlab' => 'GitLab',
                                             ]),
 
-                                        Forms\Components\Group::make()
+                                        Group::make()
                                             ->columnSpan(2)
                                             ->components([
                                                 Forms\Components\TextInput::make('name')
@@ -146,7 +147,7 @@ class Repository extends BasePage
                 Section::make('Danger Zone')
                     ->components([
                         // Danger Zone
-                        Forms\Components\Group::make()
+                        Group::make()
                             ->columnSpanFull()
                             ->components([
                                 Forms\Components\ViewField::make('warning')

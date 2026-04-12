@@ -5,6 +5,7 @@ namespace Lartisan\PloiDashboard\Pages\Server;
 use Exception;
 use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Schemas\Components\Group;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
@@ -57,7 +58,7 @@ class SshKeys extends BasePage implements HasTable
                             description: 'Add your SSH key to your server here, this allows you to SSH into your server.',
                         ),
 
-                        Forms\Components\Group::make()
+                        Group::make()
                             ->columnSpan(2)
                             ->schema([
                                 Forms\Components\TextInput::make('name')

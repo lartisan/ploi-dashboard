@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Exception;
 use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Schemas\Components\Group;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
@@ -75,7 +76,7 @@ class Certificate extends BasePage implements HasTable
                             description: 'Request a new Let\'s Encrypt certificate here. Make sure before you request a Let\'s Encrypt certificate to check whether your DNS is setup properly. Below here we provide a link to help you with setting this up.',
                         ),
 
-                        Forms\Components\Group::make()
+                        Group::make()
                             ->columnSpan(2)
                             ->schema([
                                 Forms\Components\Select::make('type')
