@@ -30,9 +30,11 @@ jobs:
 
       - name: Update Changelog
         uses: stefanzweifel/changelog-updater-action@v1
+        env:
+          RELEASE_NOTES: ${{ steps.create_release.outputs.body }}
         with:
           latest-version: ${{ github.ref_name }}
-          release-notes: ${{ steps.create_release.outputs.body }}
+          release-notes: ${{ env.RELEASE_NOTES }}
 
       - name: Commit updated CHANGELOG
         uses: stefanzweifel/git-auto-commit-action@v5
