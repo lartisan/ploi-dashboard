@@ -4,7 +4,9 @@ namespace Lartisan\PloiDashboard\Pages\Site;
 
 use Carbon\Carbon;
 use Exception;
+use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
@@ -64,7 +66,7 @@ class Certificate extends BasePage implements HasTable
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('SSL')
+                Section::make('SSL')
                     ->columns(3)
                     ->schema([
                         $this->getFormHeadingViewField(
@@ -93,7 +95,7 @@ class Certificate extends BasePage implements HasTable
                             ]),
                     ])
                     ->footerActions([
-                        Forms\Components\Actions\Action::make('Add certificate')
+                        Action::make('Add certificate')
                             ->action(function () {
                                 try {
                                     Ploi::make()->createCertificate($this->data);

@@ -3,6 +3,7 @@
 namespace Lartisan\PloiDashboard\Pages\Site;
 
 use Exception;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
@@ -77,7 +78,7 @@ class Queue extends BasePage implements HasTable
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Queue')
+                Section::make('Queue')
                     ->columns(3)
                     ->schema([
                         $this->getFormHeadingViewField(
@@ -170,9 +171,9 @@ class Queue extends BasePage implements HasTable
             ]);
     }
 
-    private function createQueueAction(): Forms\Components\Actions\Action
+    private function createQueueAction(): Action
     {
-        return Forms\Components\Actions\Action::make('Add queue')
+        return Action::make('Add queue')
             ->action(function () {
                 try {
                     Ploi::make()->createQueueWorker($this->data);

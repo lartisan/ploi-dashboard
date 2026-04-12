@@ -3,6 +3,7 @@
 namespace Lartisan\PloiDashboard\Pages\Site;
 
 use Exception;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
@@ -55,7 +56,7 @@ class Redirects extends BasePage implements HasTable
     {
         return $form
             ->components([
-                Forms\Components\Section::make('Redirects')
+                Section::make('Redirects')
                     ->columns(3)
                     ->components([
                         $this->getFormHeadingViewField(
@@ -81,7 +82,7 @@ class Redirects extends BasePage implements HasTable
                             ]),
                     ])
                     ->footerActions([
-                        Forms\Components\Actions\Action::make('Add redirect')
+                        Action::make('Add redirect')
                             ->action(function () {
                                 try {
                                     Ploi::make()->createRedirect($this->data);

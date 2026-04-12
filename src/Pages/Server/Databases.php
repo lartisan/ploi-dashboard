@@ -3,6 +3,7 @@
 namespace Lartisan\PloiDashboard\Pages\Server;
 
 use Exception;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
@@ -65,12 +66,12 @@ class Databases extends BasePage implements HasTable
     {
         return $form
             ->components([
-                Forms\Components\Section::make('Databases')
+                Section::make('Databases')
                     ->description($this->databasesCount . ' databases')
                     ->columns(3)
                     ->components(fn () => $this->getNewDatabaseSchemaFields())
                     ->footerActions([
-                        Forms\Components\Actions\Action::make('Add database')
+                        Action::make('Add database')
                             ->action(function ($state) {
                                 try {
                                     Ploi::make()->createDatabase($state);
@@ -130,7 +131,7 @@ class Databases extends BasePage implements HasTable
                             Forms\Components\TextInput::make('password')
                                 ->label('Password (optional)')
                                 ->hintAction(
-                                    Forms\Components\Actions\Action::make('generatePassword')
+                                    Action::make('generatePassword')
                                         ->label('Generate')
                                         ->action(function (Forms\Set $set) {
                                             $set('password', Str::random(20));
@@ -186,7 +187,7 @@ class Databases extends BasePage implements HasTable
                     Forms\Components\TextInput::make('password')
                         ->label('Password (optional)')
                         ->hintAction(
-                            Forms\Components\Actions\Action::make('generatePassword')
+                            Action::make('generatePassword')
                                 ->label('Generate')
                                 ->action(function (Forms\Set $set) {
                                     $set('password', Str::random(20));

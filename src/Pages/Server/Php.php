@@ -3,7 +3,10 @@
 namespace Lartisan\PloiDashboard\Pages\Server;
 
 use Exception;
+use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Schemas\Components\Actions;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\HtmlString;
 use Lartisan\PloiDashboard\Pages\BasePage;
@@ -60,7 +63,7 @@ class Php extends BasePage
     {
         return $form
             ->components([
-                Forms\Components\Section::make('OPcache')
+                Section::make('OPcache')
                     ->columns(5)
                     ->components([
                         $this->getFormHeadingViewField(
@@ -74,13 +77,13 @@ class Php extends BasePage
                             ->columnStart(5)
                             ->columnSpan(1)
                             ->components([
-                                Forms\Components\Actions::make([
-                                    Forms\Components\Actions\Action::make('Reload PHP FPM worker')
+                                Actions::make([
+                                    Action::make('Reload PHP FPM worker')
                                         ->label('Reload PHP FPM worker')
                                         ->extraAttributes(fn () => ['class' => 'w-full'])
                                         ->action(fn () => null),
 
-                                    Forms\Components\Actions\Action::make('Enable OPcache')
+                                    Action::make('Enable OPcache')
                                         ->label('Enable OPcache')
                                         ->extraAttributes(fn () => ['class' => 'w-full'])
                                         ->hidden(fn () => $this->record->opcache)
@@ -98,7 +101,7 @@ class Php extends BasePage
                                             $this->dispatch('refresh');
                                         }),
 
-                                    Forms\Components\Actions\Action::make('Disable OPcache')
+                                    Action::make('Disable OPcache')
                                         ->label('Disable OPcache')
                                         ->color('danger')
                                         ->extraAttributes(fn () => ['class' => 'w-full'])
@@ -120,7 +123,7 @@ class Php extends BasePage
                             ]),
                     ]),
 
-                Forms\Components\Section::make('PHP version')
+                Section::make('PHP version')
                     ->columns()
                     ->components([
                         $this->getFormHeadingViewField(
@@ -131,7 +134,7 @@ class Php extends BasePage
                         // Action when test domain is not enabled
                         Forms\Components\Group::make()
                             ->components([
-                                Forms\Components\Actions::make($this->getPhpVersionsActions()),
+                                Actions::make($this->getPhpVersionsActions()),
                             ]),
                     ]),
             ])
@@ -143,7 +146,7 @@ class Php extends BasePage
         $actions = [];
 
         foreach ($this->availablePhpVersions as $phpVersion) {
-            $actions[] = Forms\Components\Actions\Action::make('Install ' . $phpVersion)
+            $actions[] = Action::make('Install ' . $phpVersion)
                 ->label((in_array($phpVersion, $this->record->installed_php_versions) ? 'Installed ' : 'Install ') . $phpVersion)
                 ->color(in_array($phpVersion, $this->record->installed_php_versions) ? 'gray' : 'primary')
                 ->disabled(fn () => in_array($phpVersion, $this->record->installed_php_versions))

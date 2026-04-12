@@ -3,7 +3,10 @@
 namespace Lartisan\PloiDashboard\Pages\Server;
 
 use Exception;
+use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
@@ -64,7 +67,7 @@ class Cronjobs extends BasePage implements HasTable
     {
         return $form
             ->components([
-                Forms\Components\Section::make('Cronjobs')
+                Section::make('Cronjobs')
                     ->columns(3)
                     ->components([
                         $this->getFormHeadingViewField(
@@ -82,7 +85,7 @@ class Cronjobs extends BasePage implements HasTable
                                 Forms\Components\TextInput::make('user'),
 
                                 Forms\Components\Radio::make('frequency')
-                                    ->label(fn (Forms\Get $get, $state) => sprintf('Frequency (%s)', $state))
+                                    ->label(fn (Get $get, $state) => sprintf('Frequency (%s)', $state))
                                     ->live()
                                     ->options([
                                         '* * * * *' => 'Every minute',
@@ -97,7 +100,7 @@ class Cronjobs extends BasePage implements HasTable
                                     ->label('Custom frequency')
                                     ->live()
                                     ->placeholder('* * * * *')
-                                    ->visible(fn (Forms\Get $get) => $get('frequency') === 'custom')
+                                    ->visible(fn (Get $get) => $get('frequency') === 'custom')
                                     ->helperText('min | hour | day/month | month | day/week'),
 
                                 Forms\Components\Textarea::make('description')
@@ -106,7 +109,7 @@ class Cronjobs extends BasePage implements HasTable
                             ]),
                     ])
                     ->footerActions([
-                        Forms\Components\Actions\Action::make('Add cronjob')
+                        Action::make('Add cronjob')
                             ->action(function () {
                                 try {
                                     $data = data_get($this->data, 'frequency') === 'custom'

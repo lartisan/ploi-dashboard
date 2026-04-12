@@ -3,6 +3,7 @@
 namespace Lartisan\PloiDashboard\Pages\Server;
 
 use Exception;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
@@ -47,7 +48,7 @@ class SshKeys extends BasePage implements HasTable
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('SSH keys')
+                Section::make('SSH keys')
                     ->columns(3)
                     ->schema([
                         $this->getFormHeadingViewField(
@@ -68,7 +69,7 @@ class SshKeys extends BasePage implements HasTable
                             ]),
                     ])
                     ->footerActions([
-                        Forms\Components\Actions\Action::make('Add SSH Key')
+                        Action::make('Add SSH Key')
                             ->label('Add SSH Key')
                             ->action(function ($state) {
                                 try {

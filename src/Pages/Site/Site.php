@@ -3,8 +3,9 @@
 namespace Lartisan\PloiDashboard\Pages\Site;
 
 use Exception;
-use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Illuminate\Contracts\Support\Htmlable;
@@ -67,10 +68,10 @@ class Site extends BasePage
     {
         return $form
             ->components([
-                Forms\Components\Section::make('Deployment')
+                Section::make('Deployment')
                     ->components([
                         Forms\Components\MarkdownEditor::make('deploy_script')
-                            ->toolbarButtons(),
+                            ->toolbarButtons([]),
                     ])
                     ->footerActions([
                         $this->saveDeployScriptAction(),
@@ -112,7 +113,7 @@ class Site extends BasePage
     protected function getHeaderActions(): array
     {
         return [
-            Actions\Action::make('Edit environment')
+            Action::make('Edit environment')
                 ->color('gray')
                 ->form(function () {
                     try {
@@ -140,7 +141,7 @@ class Site extends BasePage
                     }
                 }),
 
-            Actions\Action::make('Deploy')
+            Action::make('Deploy')
                 ->action(function () {
                     try {
                         $response = Ploi::make()->deploySite();
@@ -161,9 +162,9 @@ class Site extends BasePage
         );
     }
 
-    private function saveDeployScriptAction(): Actions\Action | null | Forms\Components\Actions\Action
+    private function saveDeployScriptAction(): ?Action
     {
-        return Forms\Components\Actions\Action::make('Save')
+        return Action::make('Save')
             ->action(function (array $state) {
                 try {
                     Ploi::make()->updateDeployScript(
@@ -177,16 +178,16 @@ class Site extends BasePage
             });
     }
 
-    private function getDeployScriptsVariablesAction(): Forms\Form | null | Forms\Components\Actions\Action
+    private function getDeployScriptsVariablesAction(): ?Action
     {
-        return Forms\Components\Actions\Action::make('Deploy script variables')
+        return Action::make('Deploy script variables')
             ->color(false)
             ->modalHeading('Deploy script variables')
             ->modalDescription('Think of deploy script variables as little helpers when you\'re setting up your site. They let you fill in specific details about your site without needing to write them into the code every time. This way, if something changes, like where your site is hosted, you just update the variable, and your script is good to go. It\'s an easy way to make your setup smoother, more flexible, and save you some time along the way.')
             ->modalFooterActions(fn () => [])
             ->extraAttributes(['class' => 'underline hover:no-underline'])
             ->form([
-                Forms\Components\Section::make('General')
+                Section::make('General')
                     ->columnSpanFull()
                     ->heading(new HtmlString('<p>General &bull; <span class="text-gray-600">Like <code>{DATE}</code> to get the current date</span></p>'))
                     ->collapsible()
@@ -198,7 +199,7 @@ class Site extends BasePage
                             ->viewData(['rows' => $this->deployScriptVariables['general']]),
                     ]),
 
-                Forms\Components\Section::make('Site')
+                Section::make('Site')
                     ->heading(new HtmlString('<p>Site &bull; <span class="text-gray-600">Like <code>{SITE_DOMAIN}</code> to get the current domain</span></p>'))
                     ->collapsible()
                     ->collapsed()
@@ -209,7 +210,7 @@ class Site extends BasePage
                             ->viewData(['rows' => $this->deployScriptVariables['site']]),
                     ]),
 
-                Forms\Components\Section::make('Repository')
+                Section::make('Repository')
                     ->heading(new HtmlString('<p>Repository &bull; <span class="text-gray-600">Like <code>{BRANCH}</code> to get the current installed branch</span></p>'))
                     ->collapsible()
                     ->collapsed()

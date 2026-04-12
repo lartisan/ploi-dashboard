@@ -3,7 +3,9 @@
 namespace Lartisan\PloiDashboard\Pages\Server;
 
 use Exception;
+use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
@@ -48,7 +50,7 @@ class Daemons extends BasePage implements HasTable
     {
         return $form
             ->components([
-                Forms\Components\Section::make('Daemons')
+                Section::make('Daemons')
                     ->columns(3)
                     ->components([
                         $this->getFormHeadingViewField(
@@ -79,7 +81,7 @@ class Daemons extends BasePage implements HasTable
                             ]),
                     ])
                     ->footerActions([
-                        Forms\Components\Actions\Action::make('Add daemon')
+                        Action::make('Add daemon')
                             ->action(function ($state) {
                                 try {
                                     Ploi::make()->createDaemon($state);

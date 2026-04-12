@@ -3,7 +3,9 @@
 namespace Lartisan\PloiDashboard\Pages\Server;
 
 use Exception;
+use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Lartisan\PloiDashboard\Pages\BasePage;
@@ -56,7 +58,7 @@ class Settings extends BasePage
     {
         return $form
             ->components([
-                Forms\Components\Section::make('Server information')
+                Section::make('Server information')
                     ->columns(3)
                     ->components([
                         $this->getFormHeadingViewField(
@@ -80,11 +82,11 @@ class Settings extends BasePage
 
                                 Forms\Components\TextInput::make('ssh_port')
                                     ->label('Server SSH port')
-                                    ->required(fn (Forms\Get $get) => filled($get('ip_address'))),
+                                    ->required(fn (Get $get) => filled($get('ip_address'))),
                             ]),
                     ])
                     ->footerActions([
-                        Forms\Components\Actions\Action::make('Save')
+                        Action::make('Save')
                             ->action(function (array $state) {
                                 $this->validate();
 

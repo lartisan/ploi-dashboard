@@ -3,7 +3,9 @@
 namespace Lartisan\PloiDashboard\Pages\Site;
 
 use Exception;
+use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Schemas\Components\Actions;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Illuminate\Support\HtmlString;
@@ -83,9 +85,9 @@ class Settings extends BasePage
             ])->statePath('data');
     }
 
-    private function getDomainSectionFields(): Forms\Components\Section
+    private function getDomainSectionFields(): Section
     {
-        return Forms\Components\Section::make('Settings')
+        return Section::make('Settings')
             ->columns(3)
             ->components([
                 $this->getFormHeadingViewField(
@@ -101,7 +103,7 @@ class Settings extends BasePage
                     ]),
             ])
             ->footerActions([
-                Forms\Components\Actions\Action::make('Save')
+                Action::make('Save')
                     ->action(function () {
                         try {
                             Ploi::make()->updateSite([
@@ -117,9 +119,9 @@ class Settings extends BasePage
             ->footerActionsAlignment(Alignment::Right);
     }
 
-    private function getBlockRobotsSectionFields(): Forms\Components\Section
+    private function getBlockRobotsSectionFields(): Section
     {
-        return Forms\Components\Section::make('Robots')
+        return Section::make('Robots')
             ->columns(3)
             ->components([
                 Forms\Components\Group::make()
@@ -131,7 +133,7 @@ class Settings extends BasePage
                     ]),
             ])
             ->footerActions([
-                Forms\Components\Actions\Action::make('Save')
+                Action::make('Save')
                     ->action(function (array $state) {
                         try {
                             Ploi::make()->robotAccess([
@@ -151,9 +153,9 @@ class Settings extends BasePage
             ->footerActionsAlignment(Alignment::Right);
     }
 
-    private function getTestDomainSectionFields(): Forms\Components\Section
+    private function getTestDomainSectionFields(): Section
     {
-        return Forms\Components\Section::make('Test domain')
+        return Section::make('Test domain')
             ->columns(5)
             ->components([
                 $this->getFormHeadingViewField(
@@ -169,8 +171,8 @@ class Settings extends BasePage
                     ->columnStart(5)
                     ->columnSpan(1)
                     ->components([
-                        Forms\Components\Actions::make([
-                            Forms\Components\Actions\Action::make('Enable test domain')
+                        Actions::make([
+                            Action::make('Enable test domain')
                                 ->action(function () {
                                     try {
                                         Ploi::make()->enableTestDomain();
@@ -199,7 +201,7 @@ class Settings extends BasePage
                     ]),
             ])
             ->footerActions([
-                Forms\Components\Actions\Action::make('Disable test domain')
+                Action::make('Disable test domain')
                     ->visible(fn () => $this->data['test_domain'] !== null)
                     ->color('danger')
                     ->action(function () {
@@ -220,9 +222,9 @@ class Settings extends BasePage
             ->footerActionsAlignment(Alignment::Right);
     }
 
-    private function getPhpVersionSectionFields(): Forms\Components\Section
+    private function getPhpVersionSectionFields(): Section
     {
-        return Forms\Components\Section::make('PHP Version ' . $this->data['php_version'])
+        return Section::make('PHP Version ' . $this->data['php_version'])
             ->columns(5)
             ->components([
                 $this->getFormHeadingViewField(
@@ -240,9 +242,9 @@ class Settings extends BasePage
             ]);
     }
 
-    private function getDeleteSiteSectionFields(): Forms\Components\Section
+    private function getDeleteSiteSectionFields(): Section
     {
-        return Forms\Components\Section::make('Danger Zone')
+        return Section::make('Danger Zone')
             ->components([
                 // Danger Zone
                 Forms\Components\Group::make()
@@ -256,7 +258,7 @@ class Settings extends BasePage
                     ]),
             ])
             ->footerActions([
-                Forms\Components\Actions\Action::make('Delete')
+                Action::make('Delete')
                     ->color('danger')
                     ->modalWidth('md')
                     ->form([
@@ -292,8 +294,8 @@ class Settings extends BasePage
         $fields = [];
 
         foreach ($phpVersions as $version) {
-            $fields[] = Forms\Components\Actions::make([
-                Forms\Components\Actions\Action::make('PHP ' . $version)
+            $fields[] = Actions::make([
+                Action::make('PHP ' . $version)
                     ->label('PHP ' . $version)
                     ->extraAttributes(fn () => ['class' => 'w-full'])
                     ->disabled($this->data['php_version'] === $version)

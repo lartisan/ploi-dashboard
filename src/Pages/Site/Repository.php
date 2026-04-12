@@ -3,6 +3,7 @@
 namespace Lartisan\PloiDashboard\Pages\Site;
 
 use Exception;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
@@ -12,13 +13,13 @@ use Throwable;
 
 class Repository extends BasePage
 {
-    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-share';
+    protected static string | null | \BackedEnum $navigationIcon = 'heroicon-o-share';
 
-    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-share';
+    protected static string | null | \BackedEnum $activeNavigationIcon = 'heroicon-s-share';
 
     protected string $view = 'ploi-dashboard::pages.repository';
 
-    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
+    protected static string | null | \UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?int $navigationSort = 5;
 
@@ -56,7 +57,7 @@ class Repository extends BasePage
         return $form
             ->components([
                 // Repository
-                Forms\Components\Section::make('Repository')
+                Section::make('Repository')
                     ->id('installRepository')
                     ->components([
                         // Branch
@@ -123,7 +124,7 @@ class Repository extends BasePage
                             ]),
                     ])
                     ->footerActions([
-                        Forms\Components\Actions\Action::make('Install Repository')
+                        Action::make('Install Repository')
                             ->action(function (array $state) {
                                 $repository = data_get($state, 'repository');
 
@@ -142,7 +143,7 @@ class Repository extends BasePage
                     ])
                     ->footerActionsAlignment(Alignment::Right),
 
-                Forms\Components\Section::make('Danger Zone')
+                Section::make('Danger Zone')
                     ->components([
                         // Danger Zone
                         Forms\Components\Group::make()
@@ -158,7 +159,7 @@ class Repository extends BasePage
                             ]),
                     ])
                     ->footerActions([
-                        Forms\Components\Actions\Action::make('Delete')
+                        Action::make('Delete')
                             ->color('danger')
                             ->action(function () {
                                 try {

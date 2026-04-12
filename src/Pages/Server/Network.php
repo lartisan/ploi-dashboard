@@ -3,6 +3,7 @@
 namespace Lartisan\PloiDashboard\Pages\Server;
 
 use Exception;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
@@ -48,7 +49,7 @@ class Network extends BasePage implements HasTable
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('Network')
+                Section::make('Network')
                     ->columns(3)
                     ->schema([
                         $this->getFormHeadingViewField(
@@ -99,7 +100,7 @@ class Network extends BasePage implements HasTable
                             ]),
                     ])
                     ->footerActions([
-                        Forms\Components\Actions\Action::make('Add rule')
+                        Action::make('Add rule')
                             ->action(function ($state) {
                                 try {
                                     Ploi::make()->createNetworkRule($state);
