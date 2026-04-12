@@ -3,7 +3,7 @@
 <div align="center" class="filament-hidden">
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/lartisan/ploi-dashboard.svg)](https://packagist.org/packages/lartisan/ploi-dashboard)
-[![GitHub Tests](https://img.shields.io/github/actions/workflow/status/lartisan/ploi-dashboard/tests.yml?label=Tests)](https://github.com/lartisan/ploi-dashboard/actions)
+[![GitHub Tests](https://img.shields.io/github/actions/workflow/status/lartisan/ploi-dashboard/test.yml?label=Tests)](https://github.com/lartisan/ploi-dashboard/actions)
 [![Total Downloads](https://img.shields.io/packagist/dt/lartisan/ploi-dashboard.svg)](https://packagist.org/packages/lartisan/ploi-dashboard)
 [![License](https://img.shields.io/packagist/l/lartisan/ploi-dashboard.svg)](https://packagist.org/packages/lartisan/ploi-dashboard)
 
