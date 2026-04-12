@@ -3,16 +3,13 @@
 namespace Lartisan\PloiDashboard\Pages;
 
 use Filament\Forms;
-use Filament\Forms\Contracts\HasForms;
 use Filament\Pages\Page;
 use Filament\Tables;
 use Illuminate\Support\HtmlString;
 use Lartisan\PloiDashboard\Actions\NotificationMessage;
 
-abstract class BasePage extends Page implements HasForms
+abstract class BasePage extends Page
 {
-    use Forms\Concerns\InteractsWithForms;
-
     protected function sendNotification(string $type, string $message, ?string $body = null): void
     {
         NotificationMessage::make()->send($type, $message, $body);
