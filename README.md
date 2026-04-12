@@ -5,6 +5,12 @@
 
 This is a package that brings the Ploi dashboard to Filament admin panel. Provide the server id and the id of the site you wish to manage and unlock the Ploi features straight in your Filament admin panel.
 
+## Requirements
+
+- PHP 8.2+
+- Laravel 11+
+- Filament 4 or 5
+
 ## Installation
 
 You can install the package via composer:
@@ -32,38 +38,68 @@ return [
         'api_key' => env('PLOI_API_KEY'),
     ],
 
+    'log_requests' => true,
+
     'polling' => [
         'interval' => env('PLOI_POLLING_INTERVAL', '10s'),
+    ],
+
+    'enabled_modules' => [
+        'server' => [
+            'server'   => true,
+            'cronjobs' => true,
+            'daemons'  => true,
+            'databases' => true,
+            'logs'     => true,
+            'network'  => true,
+            'php'      => true,
+            'settings' => true,
+            'ssh-keys' => true,
+        ],
+
+        'site' => [
+            'site'        => true,
+            'certificate' => true,
+            'queue'       => true,
+            'redirects'   => true,
+            'repository'  => true,
+            'settings'    => true,
+        ],
     ],
 ];
 ```
 
 ## Usage
 
-Add the plugin to you Panel Provide, example:
+Add the plugin to your Panel Provider:
 
 ```php
+use Lartisan\PloiDashboard\PloiDashboardPlugin;
+
 class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ...
+            // ...
             ->plugins([
-                new \Lartisan\PloiDashboard\PloiDashboardPlugin,
-            ])
-        ;
+                PloiDashboardPlugin::make(),
+            ]);
     }
 }
 ```
 
-and provide the necessary environment variables in your `.env` file:
+Then add the required environment variables to your `.env` file:
 
 ```bash
 PLOI_API_KEY=your-api-key
 PLOI_SERVER_ID=your-server-id
 PLOI_WEBSITE_ID=your-website-id
 ```
+
+### Modules
+
+You can enable or disable individual pages via the `enabled_modules` config key. Each key maps to a Filament page — set it to `false` to hide that page from the panel.
 
 ## Changelog
 
