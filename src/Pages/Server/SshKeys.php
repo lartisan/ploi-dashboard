@@ -7,24 +7,20 @@ use Filament\Forms;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
 use Filament\Tables\Contracts\HasTable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Lartisan\PloiDashboard\Models\SshKey;
 use Lartisan\PloiDashboard\Pages\BasePage;
 use Lartisan\PloiDashboard\Services\Ploi\Ploi;
-use Livewire\Attributes\On;
 
 class SshKeys extends BasePage implements HasTable
 {
     use Tables\Concerns\InteractsWithTable;
 
-    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-clock';
+    protected static string | null | \BackedEnum $navigationIcon = 'heroicon-o-clock';
 
-    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-clock';
+    protected static string | null | \BackedEnum $activeNavigationIcon = 'heroicon-s-clock';
 
     protected string $view = 'ploi-dashboard::pages.server.ssh-keys';
 
-    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
+    protected static string | null | \UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?int $navigationSort = 5;
 
@@ -36,8 +32,6 @@ class SshKeys extends BasePage implements HasTable
 
     public array $data = [];
 
-    private Builder $query;
-
     public static function getNavigationParentItem(): ?string
     {
         return config('ploi-dashboard.enabled_modules.server.server') ? 'Server' : null;
@@ -46,12 +40,6 @@ class SshKeys extends BasePage implements HasTable
     public static function canAccess(): bool
     {
         return config('ploi-dashboard.enabled_modules.server.ssh-keys');
-    }
-
-    #[On('refresh')]
-    public function getQuery(): Builder
-    {
-        return SshKey::query();
     }
 
     public function form(Forms\Form $form): Forms\Form
@@ -102,7 +90,7 @@ class SshKeys extends BasePage implements HasTable
     public function table(Tables\Table $table): Tables\Table
     {
         return $table
-            ->query($this->getQuery())
+            ->records(fn () => Ploi::make()->listSshKeys())
             ->poll(config('ploi-dashboard.polling.interval'))
             ->paginated(false)
             ->columns([
@@ -110,7 +98,7 @@ class SshKeys extends BasePage implements HasTable
                     $this->getStatusColumn()->grow(false),
 
                     Tables\Columns\TextColumn::make('name')
-                        ->description(fn (Model $record) => sprintf('%s as system user', $record->system_user)),
+                        ->description(fn ($record) => sprintf('%s as system user', $record->system_user)),
                 ]),
             ])
             ->actions([
@@ -125,7 +113,7 @@ class SshKeys extends BasePage implements HasTable
             ->color('danger')
             ->requiresConfirmation()
             ->iconButton()
-            ->action(function (Model $record) {
+            ->action(function ($record) {
                 try {
                     Ploi::make()->deleteSshKey($record->id);
 

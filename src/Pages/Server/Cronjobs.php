@@ -7,26 +7,21 @@ use Filament\Forms;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
 use Filament\Tables\Contracts\HasTable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
-use Lartisan\PloiDashboard\Models\Cronjob;
-use Lartisan\PloiDashboard\Models\Site;
 use Lartisan\PloiDashboard\Pages\BasePage;
 use Lartisan\PloiDashboard\Services\Ploi\Ploi;
-use Livewire\Attributes\On;
 
 class Cronjobs extends BasePage implements HasTable
 {
     use Tables\Concerns\InteractsWithTable;
 
-    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-clock';
+    protected static string | null | \BackedEnum $navigationIcon = 'heroicon-o-clock';
 
-    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-clock';
+    protected static string | null | \BackedEnum $activeNavigationIcon = 'heroicon-s-clock';
 
     protected string $view = 'ploi-dashboard::pages.server.cronjobs';
 
-    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
+    protected static string | null | \UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?int $navigationSort = 3;
 
@@ -35,8 +30,6 @@ class Cronjobs extends BasePage implements HasTable
     protected static ?string $slug = 'server/cronjobs';
 
     public array $data;
-
-    private Builder $query;
 
     public static function getNavigationParentItem(): ?string
     {
@@ -52,19 +45,18 @@ class Cronjobs extends BasePage implements HasTable
     {
         try {
             $this->data = [
-                'command' => sprintf('php /home/ploi/%s/artisan schedule:run', Site::first()->domain),
+                'command' => sprintf('php /home/ploi/%s/artisan schedule:run', Ploi::make()->getSite()->domain),
                 'user' => 'ploi',
                 'frequency' => '* * * * *',
             ];
         } catch (Exception $e) {
+            $this->data = [
+                'command' => 'php /home/ploi/domain.com/artisan schedule:run',
+                'user' => 'ploi',
+                'frequency' => '* * * * *',
+            ];
             $this->sendNotification('warning', $e->getMessage());
         }
-    }
-
-    #[On('refresh')]
-    public function getQuery(): Builder
-    {
-        return Cronjob::query();
     }
 
     public function form(Forms\Form $form): Forms\Form
@@ -142,13 +134,13 @@ class Cronjobs extends BasePage implements HasTable
     public function table(Tables\Table $table): Tables\Table
     {
         return $table
-            ->query($this->getQuery())
+            ->records(fn () => Ploi::make()->getCronjobs())
             ->poll(config('ploi-dashboard.polling.interval'))
             ->columns([
                 $this->getStatusColumn(),
 
                 Tables\Columns\TextColumn::make('command')
-                    ->description(function (Model $record) {
+                    ->description(function ($record) {
                         $description = sprintf('%s via user %s', $record->frequency, $record->user);
 
                         if ($record->description) {
@@ -170,7 +162,7 @@ class Cronjobs extends BasePage implements HasTable
             ->color('danger')
             ->requiresConfirmation()
             ->iconButton()
-            ->action(function (Model $record) {
+            ->action(function ($record) {
                 try {
                     Ploi::make()->deleteCronjob($record->id);
 

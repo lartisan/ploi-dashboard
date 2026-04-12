@@ -6,21 +6,21 @@ use Exception;
 use Filament\Forms;
 use Filament\Support\Enums\Alignment;
 use Illuminate\Support\HtmlString;
-use Lartisan\PloiDashboard\Models\Server;
 use Lartisan\PloiDashboard\Pages\BasePage;
 use Lartisan\PloiDashboard\Services\Ploi\Ploi;
+use Lartisan\PloiDashboard\Services\Ploi\ValueObjects\Responses\ServerResponseData;
 use Livewire\Attributes\On;
 use Throwable;
 
 class Settings extends BasePage
 {
-    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-cog-6-tooth';
+    protected static string | null | \BackedEnum $navigationIcon = 'heroicon-o-cog-6-tooth';
 
-    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-cog-6-tooth';
+    protected static string | null | \BackedEnum $activeNavigationIcon = 'heroicon-s-cog-6-tooth';
 
     protected string $view = 'ploi-dashboard::pages.settings';
 
-    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
+    protected static string | null | \UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?int $navigationSort = 7;
 
@@ -28,7 +28,7 @@ class Settings extends BasePage
 
     protected static ?string $slug = 'site/settings';
 
-    public Server $server;
+    public ?ServerResponseData $server = null;
 
     public array $data = [];
 
@@ -45,7 +45,7 @@ class Settings extends BasePage
     public function mount(): void
     {
         try {
-            $this->server = Server::query()->first();
+            $this->server = Ploi::make()->getServer();
 
             $this->getData();
         } catch (Throwable $e) {

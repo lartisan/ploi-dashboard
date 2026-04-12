@@ -7,25 +7,21 @@ use Filament\Forms;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
 use Filament\Tables\Contracts\HasTable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Lartisan\PloiDashboard\Models\Queue as QueueModel;
-use Lartisan\PloiDashboard\Models\Site;
 use Lartisan\PloiDashboard\Pages\BasePage;
 use Lartisan\PloiDashboard\Services\Ploi\Ploi;
-use Livewire\Attributes\On;
+use Lartisan\PloiDashboard\Services\Ploi\ValueObjects\Responses\ServerResponseData;
 
 class Queue extends BasePage implements HasTable
 {
     use Tables\Concerns\InteractsWithTable;
 
-    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-code-bracket';
+    protected static string | null | \BackedEnum $navigationIcon = 'heroicon-o-code-bracket';
 
-    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-code-bracket';
+    protected static string | null | \BackedEnum $activeNavigationIcon = 'heroicon-s-code-bracket';
 
     protected string $view = 'ploi-dashboard::pages.queue';
 
-    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
+    protected static string | null | \UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?int $navigationSort = 2;
 
@@ -33,11 +29,9 @@ class Queue extends BasePage implements HasTable
 
     protected static ?string $slug = 'site/queue';
 
-    public array $website;
+    public ?ServerResponseData $server = null;
 
     public array $data;
-
-    private Builder $query;
 
     public static function getNavigationParentItem(): ?string
     {
@@ -54,9 +48,9 @@ class Queue extends BasePage implements HasTable
         $this->resetData();
 
         try {
-            $this->website = Site::first()->load('server')->toArray();
+            $this->server = Ploi::make()->getServer();
         } catch (Exception $e) {
-            $this->website = [];
+            $this->server = null;
 
             $this->sendNotification('warning', $e->getMessage());
         }
@@ -76,18 +70,6 @@ class Queue extends BasePage implements HasTable
             'memory' => 128,
             'enviroment' => 'production',
         ];
-    }
-
-    #[On('refresh')]
-    public function getQuery(): ?Builder
-    {
-        try {
-            return QueueModel::query();
-        } catch (Exception $e) {
-            $this->sendNotification('warning', $e->getMessage());
-
-            return null;
-        }
     }
 
     public function form(Forms\Form $form): Forms\Form
@@ -110,13 +92,13 @@ class Queue extends BasePage implements HasTable
                                     ->native(false)
                                     ->placeholder('PHP CLI Version (default)')
                                     ->options(function () {
-                                        if (! data_get($this->website, 'server.installed_php_versions')) {
+                                        if (! $this->server?->installed_php_versions) {
                                             return [];
                                         }
 
                                         return array_combine(
-                                            data_get($this->website, 'server.installed_php_versions'),
-                                            data_get($this->website, 'server.installed_php_versions')
+                                            $this->server->installed_php_versions,
+                                            $this->server->installed_php_versions
                                         );
                                     }),
 
@@ -170,14 +152,14 @@ class Queue extends BasePage implements HasTable
     public function table(Tables\Table $table): Tables\Table
     {
         return $table
-            ->query($this->getQuery())
+            ->records(fn () => Ploi::make()->getQueueWorkers())
             ->poll(config('ploi-dashboard.polling.interval'))
             ->columns([
                 $this->getStatusColumn(),
 
                 Tables\Columns\TextColumn::make('queue')
                     ->description(
-                        fn (Model $record) => sprintf('Connection %s - Sleep %s - Processes %s', $record->connection, $record->sleep, $record->processes)
+                        fn ($record) => sprintf('Connection %s - Sleep %s - Processes %s', $record->connection, $record->sleep, $record->processes)
                     ),
             ])
             ->actions([
@@ -209,18 +191,20 @@ class Queue extends BasePage implements HasTable
     private function pauseAction(): Tables\Actions\Action
     {
         return Tables\Actions\Action::make('pause')
-            ->icon(fn (Model $record) => $record->status === 'active' ? 'heroicon-s-pause' : 'heroicon-s-play')
-            ->color(fn (Model $record) => $record->status === 'active' ? 'gray' : 'success')
+            ->icon(fn ($record) => $record->status === 'active' ? 'heroicon-s-pause' : 'heroicon-s-play')
+            ->color(fn ($record) => $record->status === 'active' ? 'gray' : 'success')
             ->iconButton()
-            ->action(function (Model $record) {
+            ->action(function ($record) {
                 try {
-                    $queue = Ploi::make()->pauseQueueWorker($record->id);
-                    $record->update(['status' => $queue->status]);
+                    Ploi::make()->pauseQueueWorker($record->id);
 
                     $this->sendNotification(
                         'success',
                         sprintf('Queue worker %s successfully', $record->status === 'active' ? 'paused' : 'resumed')
                     );
+
+                    sleep(1);
+                    $this->dispatch('refresh');
                 } catch (Exception $e) {
                     $this->sendNotification('warning', $e->getMessage());
                 }
@@ -233,7 +217,7 @@ class Queue extends BasePage implements HasTable
             ->icon('heroicon-s-arrow-path')
             ->color('gray')
             ->iconButton()
-            ->action(function (Model $record) {
+            ->action(function ($record) {
                 try {
                     Ploi::make()->restartQueueWorker($record->id);
 
@@ -251,7 +235,7 @@ class Queue extends BasePage implements HasTable
             ->color('danger')
             ->requiresConfirmation()
             ->iconButton()
-            ->action(function (Model $record) {
+            ->action(function ($record) {
                 try {
                     Ploi::make()->deleteQueueWorker($record->id);
 

@@ -9,28 +9,24 @@ use Filament\Support\Enums\Alignment;
 use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
-use Lartisan\PloiDashboard\Models\Database;
-use Lartisan\PloiDashboard\Models\Server as ServerModel;
 use Lartisan\PloiDashboard\Pages\BasePage;
 use Lartisan\PloiDashboard\Services\Ploi\Ploi;
-use Livewire\Attributes\On;
+use Lartisan\PloiDashboard\Services\Ploi\ValueObjects\Responses\ServerResponseData;
 
 class Databases extends BasePage implements HasTable
 {
     use InteractsWithTable;
 
-    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-circle-stack';
+    protected static string | null | \BackedEnum $navigationIcon = 'heroicon-o-circle-stack';
 
-    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-circle-stack';
+    protected static string | null | \BackedEnum $activeNavigationIcon = 'heroicon-s-circle-stack';
 
     protected string $view = 'ploi-dashboard::pages.server.databases';
 
-    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
+    protected static string | null | \UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?int $navigationSort = 2;
 
@@ -38,7 +34,7 @@ class Databases extends BasePage implements HasTable
 
     protected static ?string $slug = 'server/databases';
 
-    public ?ServerModel $record = null;
+    public ?ServerResponseData $record = null;
 
     public ?Collection $sites = null;
 
@@ -60,21 +56,9 @@ class Databases extends BasePage implements HasTable
 
     public function mount(): void
     {
-        $this->getRecord();
-        $this->databasesCount = $this->getQuery()->count();
+        $this->record = Ploi::make()->getServer();
+        $this->databasesCount = Ploi::make()->getDatabases()->count();
         $this->sites = Ploi::make()->listSites();
-    }
-
-    #[On('refresh')]
-    public function getQuery(): Builder
-    {
-        return Database::query();
-    }
-
-    #[On('refresh')]
-    public function getRecord(): void
-    {
-        $this->record = ServerModel::query()->first();
     }
 
     public function form(Form $form): Form
@@ -83,14 +67,6 @@ class Databases extends BasePage implements HasTable
             ->schema([
                 Forms\Components\Section::make('Databases')
                     ->description($this->databasesCount . ' databases')
-                    /*->headerActions([
-                        Forms\Components\Actions\Action::make('toggle_database_users')
-                            ->label(fn () => $this->showDatabaseUsers ? 'Show Databases' : 'Show Users')
-                            ->color('gray')
-                            ->action(function () {
-                                $this->showDatabaseUsers = ! $this->showDatabaseUsers;
-                            })
-                    ])*/
                     ->columns(3)
                     ->schema(fn () => $this->getNewDatabaseSchemaFields())
                     ->footerActions([
@@ -116,13 +92,13 @@ class Databases extends BasePage implements HasTable
     public function table(Tables\Table $table): Tables\Table
     {
         return $table
-            ->query($this->getQuery())
+            ->records(fn () => Ploi::make()->getDatabases())
             ->poll(config('ploi-dashboard.polling.interval'))
             ->columns([
                 $this->getStatusColumn(),
 
                 Tables\Columns\TextColumn::make('name')
-                    ->description(function (Model $record) {
+                    ->description(function ($record) {
                         $description = count($record->users) . str(' database user')->plural(count($record->users));
 
                         if ($domain = data_get($record->site, 'root_domain')) {
@@ -144,7 +120,7 @@ class Databases extends BasePage implements HasTable
                                 ]),
 
                             Forms\Components\TextInput::make('name')
-                                ->formatStateUsing(fn (Model $record) => $record->name . '_clone')
+                                ->formatStateUsing(fn ($record) => $record->name . '_clone')
                                 ->required(),
 
                             Forms\Components\TextInput::make('user')
@@ -160,7 +136,7 @@ class Databases extends BasePage implements HasTable
                                         })
                                 ),
                         ])
-                        ->action(function (Model $record, $data) {
+                        ->action(function ($record, $data) {
                             try {
                                 Ploi::make()->cloneDatabase($record->id, $data);
 
@@ -176,7 +152,7 @@ class Databases extends BasePage implements HasTable
                     Tables\Actions\Action::make('delete')
                         ->color('danger')
                         ->requiresConfirmation()
-                        ->action(function (Model $record) {
+                        ->action(function ($record) {
                             try {
                                 Ploi::make()->deleteDatabase($record->id);
 

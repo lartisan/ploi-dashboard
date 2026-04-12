@@ -6,20 +6,20 @@ use Exception;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Illuminate\Support\HtmlString;
-use Lartisan\PloiDashboard\Models\Server as ServerModel;
 use Lartisan\PloiDashboard\Pages\BasePage;
 use Lartisan\PloiDashboard\Services\Ploi\Ploi;
+use Lartisan\PloiDashboard\Services\Ploi\ValueObjects\Responses\ServerResponseData;
 use Livewire\Attributes\On;
 
 class Php extends BasePage
 {
-    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-code-bracket';
+    protected static string | null | \BackedEnum $navigationIcon = 'heroicon-o-code-bracket';
 
-    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-code-bracket';
+    protected static string | null | \BackedEnum $activeNavigationIcon = 'heroicon-s-code-bracket';
 
     protected string $view = 'ploi-dashboard::pages.server.php';
 
-    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
+    protected static string | null | \UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?int $navigationSort = 1;
 
@@ -29,7 +29,7 @@ class Php extends BasePage
 
     protected static ?string $slug = 'server/php';
 
-    public ?ServerModel $record = null;
+    public ?ServerResponseData $record = null;
 
     public array $data = [];
 
@@ -53,7 +53,7 @@ class Php extends BasePage
     #[On('refresh')]
     public function getRecord(): void
     {
-        $this->record = ServerModel::query()->first();
+        $this->record = Ploi::make()->getServer();
     }
 
     public function form(Form $form): Form
@@ -170,7 +170,7 @@ class Php extends BasePage
         return new HtmlString('Your current default PHP version: ' . $this->record->php_version . '
 
             Your current PHP CLI version: ' . $this->record->php_cli_version . '
-            
+
             You can install additional PHP versions right here. This will not change any websites but only install the PHP packages next to your current PHP version. You are also able to set the PHP CLI version to another version and the default PHP version that should be used for future websites that are created.
         ');
     }

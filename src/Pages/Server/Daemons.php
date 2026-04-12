@@ -7,24 +7,20 @@ use Filament\Forms;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
 use Filament\Tables\Contracts\HasTable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Lartisan\PloiDashboard\Models\Daemon;
 use Lartisan\PloiDashboard\Pages\BasePage;
 use Lartisan\PloiDashboard\Services\Ploi\Ploi;
-use Livewire\Attributes\On;
 
 class Daemons extends BasePage implements HasTable
 {
     use Tables\Concerns\InteractsWithTable;
 
-    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-clock';
+    protected static string | null | \BackedEnum $navigationIcon = 'heroicon-o-clock';
 
-    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-clock';
+    protected static string | null | \BackedEnum $activeNavigationIcon = 'heroicon-s-clock';
 
     protected string $view = 'ploi-dashboard::pages.server.daemons';
 
-    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
+    protected static string | null | \UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?int $navigationSort = 6;
 
@@ -37,8 +33,6 @@ class Daemons extends BasePage implements HasTable
         'system_user' => 'ploi',
     ];
 
-    private Builder $query;
-
     public static function getNavigationParentItem(): ?string
     {
         return config('ploi-dashboard.enabled_modules.server.server') ? 'Server' : null;
@@ -47,12 +41,6 @@ class Daemons extends BasePage implements HasTable
     public static function canAccess(): bool
     {
         return config('ploi-dashboard.enabled_modules.server.daemons');
-    }
-
-    #[On('refresh')]
-    public function getQuery(): Builder
-    {
-        return Daemon::query();
     }
 
     public function form(Forms\Form $form): Forms\Form
@@ -112,7 +100,7 @@ class Daemons extends BasePage implements HasTable
     public function table(Tables\Table $table): Tables\Table
     {
         return $table
-            ->query($this->getQuery())
+            ->records(fn () => Ploi::make()->listDaemons())
             ->poll(config('ploi-dashboard.polling.interval'))
             ->paginated(false)
             ->columns([
@@ -121,7 +109,7 @@ class Daemons extends BasePage implements HasTable
 
                     Tables\Columns\TextColumn::make('command')
                         ->description(
-                            fn (Model $record) => str('Running on user ')
+                            fn ($record) => str('Running on user ')
                                 ->append($record->system_user)
                                 ->append(' with ')
                                 ->append($record->processes)
@@ -140,11 +128,11 @@ class Daemons extends BasePage implements HasTable
     private function pauseAction(): Tables\Actions\Action
     {
         return Tables\Actions\Action::make('pause')
-            ->icon(fn (Model $record) => 'heroicon-s-pause')
+            ->icon(fn ($record) => 'heroicon-s-pause')
             ->color('warning')
             ->requiresConfirmation()
             ->iconButton()
-            ->action(function (Model $record) {
+            ->action(function ($record) {
                 try {
                     Ploi::make()->pauseDaemon($record->id);
 
@@ -165,7 +153,7 @@ class Daemons extends BasePage implements HasTable
             ->color('success')
             ->requiresConfirmation()
             ->iconButton()
-            ->action(function (Model $record) {
+            ->action(function ($record) {
                 try {
                     Ploi::make()->restartDaemon($record->id);
 
@@ -186,7 +174,7 @@ class Daemons extends BasePage implements HasTable
             ->color('danger')
             ->requiresConfirmation()
             ->iconButton()
-            ->action(function (Model $record) {
+            ->action(function ($record) {
                 try {
                     Ploi::make()->deleteDaemon($record->id);
 

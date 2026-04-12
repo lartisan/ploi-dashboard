@@ -6,19 +6,19 @@ use Exception;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Support\Enums\Alignment;
-use Lartisan\PloiDashboard\Models\Server as ServerModel;
 use Lartisan\PloiDashboard\Pages\BasePage;
 use Lartisan\PloiDashboard\Services\Ploi\Ploi;
+use Lartisan\PloiDashboard\Services\Ploi\ValueObjects\Responses\ServerResponseData;
 
 class Settings extends BasePage
 {
-    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-cog-6-tooth';
+    protected static string | null | \BackedEnum $navigationIcon = 'heroicon-o-cog-6-tooth';
 
-    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-cog-6-tooth';
+    protected static string | null | \BackedEnum $activeNavigationIcon = 'heroicon-s-cog-6-tooth';
 
     protected string $view = 'ploi-dashboard::pages.server.settings';
 
-    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
+    protected static string | null | \UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?int $navigationSort = 7;
 
@@ -26,7 +26,7 @@ class Settings extends BasePage
 
     protected static ?string $slug = 'server/settings';
 
-    public ?ServerModel $record = null; // TODO: Change to SiteModel
+    public ?ServerResponseData $record = null;
 
     public array $data = [];
 
@@ -42,7 +42,14 @@ class Settings extends BasePage
 
     public function mount(): void
     {
-        $this->data = ServerModel::query()->first()->toArray();
+        $this->record = Ploi::make()->getServer();
+
+        $this->data = [
+            'name' => $this->record->name,
+            'ip_address' => $this->record->ip_address,
+            'internal_ip' => $this->record->internal_ip,
+            'ssh_port' => $this->record->ssh_port,
+        ];
     }
 
     public function form(Form $form): Form

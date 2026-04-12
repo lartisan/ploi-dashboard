@@ -9,19 +9,20 @@ use Filament\Support\Enums\Alignment;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\HtmlString;
-use Lartisan\PloiDashboard\Models\Site as SiteModel;
 use Lartisan\PloiDashboard\Pages\BasePage;
 use Lartisan\PloiDashboard\Services\Ploi\Ploi;
+use Lartisan\PloiDashboard\Services\Ploi\ValueObjects\Responses\ServerResponseData;
+use Lartisan\PloiDashboard\Services\Ploi\ValueObjects\Responses\SiteResponseData;
 
 class Site extends BasePage
 {
-    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-globe-alt';
+    protected static string | null | \BackedEnum $navigationIcon = 'heroicon-o-globe-alt';
 
-    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-globe-alt';
+    protected static string | null | \BackedEnum $activeNavigationIcon = 'heroicon-s-globe-alt';
 
     protected string $view = 'ploi-dashboard::pages.general';
 
-    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
+    protected static string | null | \UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?string $navigationLabel = 'Site';
 
@@ -29,7 +30,9 @@ class Site extends BasePage
 
     protected static ?string $slug = 'site';
 
-    public ?SiteModel $site;
+    public ?SiteResponseData $site = null;
+
+    public ?ServerResponseData $server = null;
 
     public array $data;
 
@@ -45,12 +48,14 @@ class Site extends BasePage
         $this->deployScriptVariables = $this->getDeployScriptVariables();
 
         try {
-            $this->site = SiteModel::first()->load('server');
-            $this->data = $this->site->toArray();
+            $this->site = Ploi::make()->getSite();
+            $this->server = Ploi::make()->getServer();
+            $this->data = ['deploy_script' => $this->site->deploy_script];
 
             $this->form->fill($this->data);
         } catch (Exception $e) {
             $this->site = null;
+            $this->server = null;
             $this->data = [];
 
             $this->sendNotification('warning', $e->getMessage());
@@ -87,18 +92,18 @@ class Site extends BasePage
                 ->append($this->site->last_deploy_at)
                 ->append('<br>')
                 ->append('Server: ')
-                ->append(data_get($this->site, 'server.name'))
+                ->append($this->server?->name)
                 ->append(' | IP: ')
-                ->append(data_get($this->site, 'server.ip_address'))
+                ->append($this->server?->ip_address)
                 ->append(' | Uptime: ')
-                ->append(data_get($this->site, 'server.uptime_human'))
+                ->append($this->server?->uptime_human)
                 ->append('<br>')
                 ->append('PHP Version: ')
-                ->append(data_get($this->site, 'server.php_version'))
+                ->append($this->server?->php_version)
                 ->append(' | MySql Version: ')
-                ->append(data_get($this->site, 'server.mysql_version'))
+                ->append($this->server?->mysql_version)
                 ->append(' | Reboot required: ')
-                ->append(data_get($this->site, 'server.reboot_required') ? 'Yes' : 'No')
+                ->append($this->server?->reboot_required ? 'Yes' : 'No')
                 ->toHtmlString()
             : null;
     }

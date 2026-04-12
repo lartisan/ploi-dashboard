@@ -7,33 +7,27 @@ use Filament\Forms;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
 use Filament\Tables\Contracts\HasTable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
-use Lartisan\PloiDashboard\Models\Redirect as RedirectModel;
 use Lartisan\PloiDashboard\Pages\BasePage;
 use Lartisan\PloiDashboard\Services\Ploi\Ploi;
-use Livewire\Attributes\On;
 
 class Redirects extends BasePage implements HasTable
 {
     use Tables\Concerns\InteractsWithTable;
 
-    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-arrows-right-left';
+    protected static string | null | \BackedEnum $navigationIcon = 'heroicon-o-arrows-right-left';
 
-    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-arrows-right-left';
+    protected static string | null | \BackedEnum $activeNavigationIcon = 'heroicon-s-arrows-right-left';
 
     protected string $view = 'ploi-dashboard::pages.redirects';
 
-    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
+    protected static string | null | \UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?int $navigationSort = 6;
 
     protected ?string $heading = '';
 
     protected static ?string $slug = 'site/redirects';
-
-    private Builder $query;
 
     public array $data = [
         'redirect_from' => '',
@@ -54,12 +48,6 @@ class Redirects extends BasePage implements HasTable
     public function mount(): void
     {
         $this->form->fill($this->data);
-    }
-
-    #[On('refresh')]
-    public function getQuery(): Builder
-    {
-        return RedirectModel::query();
     }
 
     public function form(Forms\Form $form): Forms\Form
@@ -113,16 +101,16 @@ class Redirects extends BasePage implements HasTable
     public function table(Tables\Table $table): Tables\Table
     {
         return $table
-            ->query($this->getQuery())
+            ->records(fn () => Ploi::make()->getRedirects())
             ->poll(config('ploi-dashboard.polling.interval'))
             ->columns([
                 $this->getStatusColumn(),
 
                 Tables\Columns\TextColumn::make('redirect_from')
                     ->label('Redirect')
-                    ->formatStateUsing(fn (?Model $record): string => sprintf('Redirect %s to %s', $record?->redirect_from, $record?->redirect_to))
+                    ->formatStateUsing(fn ($record): string => sprintf('Redirect %s to %s', $record?->redirect_from, $record?->redirect_to))
                     ->description(
-                        fn (Model $record): string => $record->type === 'permanent' ? 'Permanent (301)' : 'Temporary (302)'
+                        fn ($record): string => $record->type === 'permanent' ? 'Permanent (301)' : 'Temporary (302)'
                     ),
             ])
             ->actions([
@@ -137,7 +125,7 @@ class Redirects extends BasePage implements HasTable
             ->color('danger')
             ->requiresConfirmation()
             ->iconButton()
-            ->action(function (Model $record) {
+            ->action(function ($record) {
                 try {
                     Ploi::make()->deleteRedirect($record->id);
 

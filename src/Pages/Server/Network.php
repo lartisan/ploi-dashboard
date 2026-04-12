@@ -7,24 +7,20 @@ use Filament\Forms;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
 use Filament\Tables\Contracts\HasTable;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Lartisan\PloiDashboard\Models\NetworkRule;
 use Lartisan\PloiDashboard\Pages\BasePage;
 use Lartisan\PloiDashboard\Services\Ploi\Ploi;
-use Livewire\Attributes\On;
 
 class Network extends BasePage implements HasTable
 {
     use Tables\Concerns\InteractsWithTable;
 
-    protected static string|null|\BackedEnum $navigationIcon = 'heroicon-o-clock';
+    protected static string | null | \BackedEnum $navigationIcon = 'heroicon-o-clock';
 
-    protected static string|null|\BackedEnum $activeNavigationIcon = 'heroicon-s-clock';
+    protected static string | null | \BackedEnum $activeNavigationIcon = 'heroicon-s-clock';
 
     protected string $view = 'ploi-dashboard::pages.server.network';
 
-    protected static string|null|\UnitEnum $navigationGroup = 'Ploi Management';
+    protected static string | null | \UnitEnum $navigationGroup = 'Ploi Management';
 
     protected static ?int $navigationSort = 4;
 
@@ -37,8 +33,6 @@ class Network extends BasePage implements HasTable
         'rule_type' => 'allow',
     ];
 
-    private Builder $query;
-
     public static function getNavigationParentItem(): ?string
     {
         return config('ploi-dashboard.enabled_modules.server.server') ? 'Server' : null;
@@ -47,12 +41,6 @@ class Network extends BasePage implements HasTable
     public static function canAccess(): bool
     {
         return config('ploi-dashboard.enabled_modules.server.network');
-    }
-
-    #[On('refresh')]
-    public function getQuery(): Builder
-    {
-        return NetworkRule::query();
     }
 
     public function form(Forms\Form $form): Forms\Form
@@ -132,7 +120,7 @@ class Network extends BasePage implements HasTable
     public function table(Tables\Table $table): Tables\Table
     {
         return $table
-            ->query($this->getQuery())
+            ->records(fn () => Ploi::make()->listNetworkRules())
             ->poll(config('ploi-dashboard.polling.interval'))
             ->paginated(false)
             ->columns([
@@ -140,7 +128,7 @@ class Network extends BasePage implements HasTable
                     $this->getStatusColumn()->grow(false),
 
                     Tables\Columns\TextColumn::make('name')
-                        ->description(fn (Model $record) => sprintf('%s %s', $record->rule_type, $record->port)),
+                        ->description(fn ($record) => sprintf('%s %s', $record->rule_type, $record->port)),
                 ]),
             ])
             ->actions([
@@ -155,7 +143,7 @@ class Network extends BasePage implements HasTable
             ->color('danger')
             ->requiresConfirmation()
             ->iconButton()
-            ->action(function (Model $record) {
+            ->action(function ($record) {
                 try {
                     Ploi::make()->deleteNetworkRule($record->id);
 
