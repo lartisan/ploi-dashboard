@@ -40,7 +40,7 @@ class PloiClient
         return rescue(fn () => ServerResponseData::toCollection($response->json('data')));
     }
 
-    public function getServer(): ServerResponseData
+    public function getServer(): ?ServerResponseData
     {
         $response = $this->get("servers/{$this->config->serverId}");
 
@@ -101,14 +101,14 @@ class PloiClient
         return rescue(fn () => DatabaseResponseData::toCollection($response->json('data')));
     }
 
-    public function createDatabase(array $data): DatabaseResponseData
+    public function createDatabase(array $data): ?DatabaseResponseData
     {
         $response = $this->post("servers/{$this->config->serverId}/databases", $data);
 
         return rescue(fn () => DatabaseResponseData::fromLivewire($response->json('data')));
     }
 
-    public function cloneDatabase(int $database, array $data): DatabaseResponseData
+    public function cloneDatabase(int $database, array $data): ?DatabaseResponseData
     {
         $response = $this->post("servers/{$this->config->serverId}/databases/{$database}/duplicate", $data);
 
@@ -134,7 +134,7 @@ class PloiClient
         return rescue(fn () => NetworkRuleResponseData::toCollection($response->json('data')));
     }
 
-    public function createNetworkRule(array $data): NetworkRuleResponseData
+    public function createNetworkRule(array $data): ?NetworkRuleResponseData
     {
         $response = $this->post("servers/{$this->config->serverId}/network-rules", $data);
 
@@ -160,7 +160,7 @@ class PloiClient
         return rescue(fn () => SshKeyResponseData::toCollection($response->json('data')));
     }
 
-    public function createSshKey(array $data): SshKeyResponseData
+    public function createSshKey(array $data): ?SshKeyResponseData
     {
         $response = $this->post("servers/{$this->config->serverId}/ssh-keys", $data);
 
@@ -186,7 +186,7 @@ class PloiClient
         return rescue(fn () => DaemonResponseData::toCollection($response->json('data')));
     }
 
-    public function createDaemon(array $data): DaemonResponseData
+    public function createDaemon(array $data): ?DaemonResponseData
     {
         $response = $this->post("servers/{$this->config->serverId}/daemons", $data);
 
@@ -363,7 +363,7 @@ class PloiClient
         return rescue(fn () => CronjobResponseData::toCollection($response->json('data')));
     }
 
-    public function createCronjob(array $data): CronjobResponseData
+    public function createCronjob(array $data): ?CronjobResponseData
     {
         $response = $this->post("servers/{$this->config->serverId}/crontabs", $data);
 
@@ -382,7 +382,7 @@ class PloiClient
      | Repository
      |--------------------------------------------------------------------------
      */
-    public function getRepository(): RepositoryResponseData
+    public function getRepository(): ?RepositoryResponseData
     {
         $response = $this->get("servers/{$this->config->serverId}/sites/{$this->config->websiteId}/repository");
 
@@ -422,7 +422,7 @@ class PloiClient
         return rescue(fn () => RedirectData::toCollection($response->json('data')));
     }
 
-    public function createRedirect(array $data): RedirectData
+    public function createRedirect(array $data): ?RedirectData
     {
         $response = $this->post("servers/{$this->config->serverId}/sites/{$this->config->websiteId}/redirects", $data);
 
@@ -441,14 +441,14 @@ class PloiClient
      | Settings
      |--------------------------------------------------------------------------
      */
-    public function getSite(): SiteResponseData
+    public function getSite(): ?SiteResponseData
     {
         $response = $this->get("servers/{$this->config->serverId}/sites/{$this->config->websiteId}");
 
         return rescue(fn () => SiteResponseData::fromLivewire($response->json('data')));
     }
 
-    public function updateSite(array $data): SiteResponseData
+    public function updateSite(array $data): ?SiteResponseData
     {
         $response = $this->patch("servers/{$this->config->serverId}/sites/{$this->config->websiteId}", $data);
 
