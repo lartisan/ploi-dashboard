@@ -104,14 +104,14 @@ class SshKeys extends BasePage implements HasTable
                         ->description(fn ($record) => sprintf('%s as system user', $record['system_user'])),
                 ]),
             ])
-            ->actions([
+            ->recordActions([
                 $this->deleteAction(),
             ]);
     }
 
-    private function deleteAction(): Tables\Actions\Action
+    private function deleteAction(): Action
     {
-        return Tables\Actions\Action::make('delete')
+        return Action::make('delete')
             ->icon('heroicon-s-trash')
             ->color('danger')
             ->requiresConfirmation()

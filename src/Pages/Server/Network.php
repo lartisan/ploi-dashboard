@@ -134,14 +134,14 @@ class Network extends BasePage implements HasTable
                         ->description(fn ($record) => sprintf('%s %s', $record['rule_type'], $record['port'])),
                 ]),
             ])
-            ->actions([
+            ->recordActions([
                 $this->deleteAction(),
             ]);
     }
 
-    private function deleteAction(): Tables\Actions\Action
+    private function deleteAction(): Action
     {
-        return Tables\Actions\Action::make('delete')
+        return Action::make('delete')
             ->icon('heroicon-s-trash')
             ->color('danger')
             ->requiresConfirmation()

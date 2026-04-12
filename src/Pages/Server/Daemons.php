@@ -122,16 +122,16 @@ class Daemons extends BasePage implements HasTable
                         ),
                 ]),
             ])
-            ->actions([
+            ->recordActions([
                 // $this->pauseAction(),
                 $this->restartAction(),
                 $this->deleteAction(),
             ]);
     }
 
-    private function pauseAction(): Tables\Actions\Action
+    private function pauseAction(): Action
     {
-        return Tables\Actions\Action::make('pause')
+        return Action::make('pause')
             ->icon(fn ($record) => 'heroicon-s-pause')
             ->color('warning')
             ->requiresConfirmation()
@@ -150,9 +150,9 @@ class Daemons extends BasePage implements HasTable
             });
     }
 
-    private function restartAction(): Tables\Actions\Action
+    private function restartAction(): Action
     {
-        return Tables\Actions\Action::make('restart')
+        return Action::make('restart')
             ->icon('heroicon-s-arrow-path')
             ->color('success')
             ->requiresConfirmation()
@@ -171,9 +171,9 @@ class Daemons extends BasePage implements HasTable
             });
     }
 
-    private function deleteAction(): Tables\Actions\Action
+    private function deleteAction(): Action
     {
-        return Tables\Actions\Action::make('delete')
+        return Action::make('delete')
             ->icon('heroicon-s-trash')
             ->color('danger')
             ->requiresConfirmation()

@@ -116,14 +116,14 @@ class Redirects extends BasePage implements HasTable
                         fn ($record): string => ($record['type'] ?? '') === 'permanent' ? 'Permanent (301)' : 'Temporary (302)'
                     ),
             ])
-            ->actions([
+            ->recordActions([
                 $this->deleteAction(),
             ]);
     }
 
-    private function deleteAction(): Tables\Actions\Action
+    private function deleteAction(): Action
     {
-        return Tables\Actions\Action::make('delete')
+        return Action::make('delete')
             ->icon('heroicon-s-trash')
             ->color('danger')
             ->requiresConfirmation()

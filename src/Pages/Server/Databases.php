@@ -4,8 +4,10 @@ namespace Lartisan\PloiDashboard\Pages\Server;
 
 use Exception;
 use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Forms;
 use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
@@ -111,9 +113,9 @@ class Databases extends BasePage implements HasTable
                         return new HtmlString($description);
                     }),
             ])
-            ->actions([
-                Tables\Actions\ActionGroup::make([
-                    Tables\Actions\Action::make('colone')
+            ->recordActions([
+                ActionGroup::make([
+                    Action::make('colone')
                         ->modalHeading('Clone database')
                         ->form([
                             Forms\Components\ViewField::make('warning')
@@ -152,7 +154,7 @@ class Databases extends BasePage implements HasTable
                             }
                         }),
 
-                    Tables\Actions\Action::make('delete')
+                    Action::make('delete')
                         ->color('danger')
                         ->requiresConfirmation()
                         ->action(function ($record) {

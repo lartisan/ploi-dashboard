@@ -165,7 +165,7 @@ class Queue extends BasePage implements HasTable
                         fn ($record) => sprintf('Connection %s - Sleep %s - Processes %s', $record['connection'], $record['sleep'], $record['processes'])
                     ),
             ])
-            ->actions([
+            ->recordActions([
                 $this->pauseAction(),
                 $this->restartAction(),
                 $this->deleteAction(),
@@ -191,9 +191,9 @@ class Queue extends BasePage implements HasTable
             });
     }
 
-    private function pauseAction(): Tables\Actions\Action
+    private function pauseAction(): Action
     {
-        return Tables\Actions\Action::make('pause')
+        return Action::make('pause')
             ->icon(fn ($record) => $record['status'] === 'active' ? 'heroicon-s-pause' : 'heroicon-s-play')
             ->color(fn ($record) => $record['status'] === 'active' ? 'gray' : 'success')
             ->iconButton()
@@ -214,9 +214,9 @@ class Queue extends BasePage implements HasTable
             });
     }
 
-    private function restartAction(): Tables\Actions\Action
+    private function restartAction(): Action
     {
-        return Tables\Actions\Action::make('restart')
+        return Action::make('restart')
             ->icon('heroicon-s-arrow-path')
             ->color('gray')
             ->iconButton()
@@ -231,9 +231,9 @@ class Queue extends BasePage implements HasTable
             });
     }
 
-    private function deleteAction(): Tables\Actions\Action
+    private function deleteAction(): Action
     {
-        return Tables\Actions\Action::make('delete')
+        return Action::make('delete')
             ->icon('heroicon-s-trash')
             ->color('danger')
             ->requiresConfirmation()
