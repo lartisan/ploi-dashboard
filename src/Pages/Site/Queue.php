@@ -152,14 +152,14 @@ class Queue extends BasePage implements HasTable
     public function table(Tables\Table $table): Tables\Table
     {
         return $table
-            ->records(fn () => Ploi::make()->getQueueWorkers())
+            ->records(fn () => Ploi::make()->getQueueWorkers()->map(fn ($r) => $r->toLivewire()))
             ->poll(config('ploi-dashboard.polling.interval'))
             ->columns([
                 $this->getStatusColumn(),
 
                 Tables\Columns\TextColumn::make('queue')
                     ->description(
-                        fn ($record) => sprintf('Connection %s - Sleep %s - Processes %s', $record->connection, $record->sleep, $record->processes)
+                        fn ($record) => sprintf('Connection %s - Sleep %s - Processes %s', $record['connection'], $record['sleep'], $record['processes'])
                     ),
             ])
             ->actions([
@@ -191,16 +191,16 @@ class Queue extends BasePage implements HasTable
     private function pauseAction(): Tables\Actions\Action
     {
         return Tables\Actions\Action::make('pause')
-            ->icon(fn ($record) => $record->status === 'active' ? 'heroicon-s-pause' : 'heroicon-s-play')
-            ->color(fn ($record) => $record->status === 'active' ? 'gray' : 'success')
+            ->icon(fn ($record) => $record['status'] === 'active' ? 'heroicon-s-pause' : 'heroicon-s-play')
+            ->color(fn ($record) => $record['status'] === 'active' ? 'gray' : 'success')
             ->iconButton()
             ->action(function ($record) {
                 try {
-                    Ploi::make()->pauseQueueWorker($record->id);
+                    Ploi::make()->pauseQueueWorker($record['id']);
 
                     $this->sendNotification(
                         'success',
-                        sprintf('Queue worker %s successfully', $record->status === 'active' ? 'paused' : 'resumed')
+                        sprintf('Queue worker %s successfully', $record['status'] === 'active' ? 'paused' : 'resumed')
                     );
 
                     sleep(1);
@@ -219,7 +219,7 @@ class Queue extends BasePage implements HasTable
             ->iconButton()
             ->action(function ($record) {
                 try {
-                    Ploi::make()->restartQueueWorker($record->id);
+                    Ploi::make()->restartQueueWorker($record['id']);
 
                     $this->sendNotification('success', 'Queue worker restarted successfully');
                 } catch (Exception $e) {
@@ -237,7 +237,7 @@ class Queue extends BasePage implements HasTable
             ->iconButton()
             ->action(function ($record) {
                 try {
-                    Ploi::make()->deleteQueueWorker($record->id);
+                    Ploi::make()->deleteQueueWorker($record['id']);
 
                     $this->sendNotification('success', 'Queue worker deleted successfully');
 

@@ -38,13 +38,13 @@ class Logs extends BasePage implements HasTable
     public function table(Tables\Table $table): Tables\Table
     {
         return $table
-            ->records(fn () => Ploi::make()->listLogs())
+            ->records(fn () => Ploi::make()->listLogs()->map(fn ($r) => $r->toLivewire()))
             ->poll(config('ploi-dashboard.polling.interval'))
             ->paginated(false)
             ->columns([
                 Tables\Columns\TextColumn::make('description')
                     ->searchable()
-                    ->description(fn ($record) => $record->created_at),
+                    ->description(fn ($record) => $record['created_at']),
             ]);
     }
 }

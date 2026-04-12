@@ -90,7 +90,7 @@ class SshKeys extends BasePage implements HasTable
     public function table(Tables\Table $table): Tables\Table
     {
         return $table
-            ->records(fn () => Ploi::make()->listSshKeys())
+            ->records(fn () => Ploi::make()->listSshKeys()->map(fn ($r) => $r->toLivewire()))
             ->poll(config('ploi-dashboard.polling.interval'))
             ->paginated(false)
             ->columns([
@@ -98,7 +98,7 @@ class SshKeys extends BasePage implements HasTable
                     $this->getStatusColumn()->grow(false),
 
                     Tables\Columns\TextColumn::make('name')
-                        ->description(fn ($record) => sprintf('%s as system user', $record->system_user)),
+                        ->description(fn ($record) => sprintf('%s as system user', $record['system_user'])),
                 ]),
             ])
             ->actions([
@@ -115,7 +115,7 @@ class SshKeys extends BasePage implements HasTable
             ->iconButton()
             ->action(function ($record) {
                 try {
-                    Ploi::make()->deleteSshKey($record->id);
+                    Ploi::make()->deleteSshKey($record['id']);
 
                     $this->sendNotification('success', 'SSH key deleted successfully');
 

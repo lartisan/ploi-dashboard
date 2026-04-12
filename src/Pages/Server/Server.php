@@ -3,8 +3,13 @@
 namespace Lartisan\PloiDashboard\Pages\Server;
 
 use Exception;
-use Filament\Forms;
-use Filament\Forms\Form;
+use Filament\Actions\Action;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Schema;
 use Filament\Support\Enums\Alignment;
 use Filament\Tables;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -48,11 +53,11 @@ class Server extends BasePage implements HasTable
         $this->record = Ploi::make()->getServer();
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $form): Schema
     {
         return $form
             ->schema([
-                Forms\Components\Section::make('New site')
+                Section::make('New site')
                     ->columns(3)
                     ->schema([
                         $this->getFormHeadingViewField(
@@ -60,24 +65,24 @@ class Server extends BasePage implements HasTable
                             description: 'Create a new site in your server here, we offer more options if you press Advanced settings, you can select a system user there or setup staging.'
                         ),
 
-                        Forms\Components\Group::make()
+                        Group::make()
                             ->columnSpan(2)
                             ->schema([
-                                Forms\Components\TextInput::make('root_domain')
+                                TextInput::make('root_domain')
                                     ->label('Domain')
                                     ->required(),
 
-                                Forms\Components\Group::make()
+                                Group::make()
                                     ->visible(fn () => $this->showAdvancedSettings)
                                     ->schema([
-                                        Forms\Components\TextInput::make('web_directory')
+                                        TextInput::make('web_directory')
                                             ->required(),
 
-                                        Forms\Components\TextInput::make('project_root')
+                                        TextInput::make('project_root')
                                             ->label('Project directory')
                                             ->required(),
 
-                                        Forms\Components\Select::make('project_type')
+                                        Select::make('project_type')
                                             ->native(false)
                                             ->required()
                                             ->selectablePlaceholder(false)
@@ -93,13 +98,13 @@ class Server extends BasePage implements HasTable
                                                 'cakephp' => 'CakePHP 3',
                                             ]),
 
-                                        Forms\Components\Checkbox::make('system_user')
+                                        Checkbox::make('system_user')
                                             ->helperText('This will create a system user with a random generated name. You can also create a custom system user in the manage tab.'),
                                     ]),
                             ]),
                     ])
                     ->footerActions([
-                        Forms\Components\Actions\Action::make('Add site')
+                        Action::make('Add site')
                             ->action(function () {
                                 try {
                                     // Ploi::make()->createSite($this->data);
@@ -114,7 +119,7 @@ class Server extends BasePage implements HasTable
                                 $this->dispatch('refresh');
                             }),
 
-                        Forms\Components\Actions\Action::make('Advanced settings')
+                        Action::make('Advanced settings')
                             ->color('gray')
                             ->action(fn () => $this->showAdvancedSettings = ! $this->showAdvancedSettings),
                     ])
@@ -126,14 +131,14 @@ class Server extends BasePage implements HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->records(fn () => Ploi::make()->listSites())
+            ->records(fn () => Ploi::make()->listSites()->map(fn ($r) => $r->toLivewire()))
             ->recordUrl(fn ($record) => route('filament.admin.pages.site'))
             ->columns([
                 Tables\Columns\Layout\Split::make([
                     $this->getStatusColumn()->grow(false),
 
                     Tables\Columns\TextColumn::make('domain')
-                        ->description(fn ($record): string => 'PHP Version: ' . $record->php_version)
+                        ->description(fn ($record): string => 'PHP Version: ' . $record['php_version'])
                         ->searchable(),
                 ]),
             ]);

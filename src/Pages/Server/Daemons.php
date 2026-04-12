@@ -100,7 +100,7 @@ class Daemons extends BasePage implements HasTable
     public function table(Tables\Table $table): Tables\Table
     {
         return $table
-            ->records(fn () => Ploi::make()->listDaemons())
+            ->records(fn () => Ploi::make()->listDaemons()->map(fn ($r) => $r->toLivewire()))
             ->poll(config('ploi-dashboard.polling.interval'))
             ->paginated(false)
             ->columns([
@@ -110,11 +110,11 @@ class Daemons extends BasePage implements HasTable
                     Tables\Columns\TextColumn::make('command')
                         ->description(
                             fn ($record) => str('Running on user ')
-                                ->append($record->system_user)
+                                ->append($record['system_user'])
                                 ->append(' with ')
-                                ->append($record->processes)
+                                ->append($record['processes'])
                                 ->append(' process')
-                                ->plural($record->processes)
+                                ->plural($record['processes'])
                         ),
                 ]),
             ])
@@ -134,7 +134,7 @@ class Daemons extends BasePage implements HasTable
             ->iconButton()
             ->action(function ($record) {
                 try {
-                    Ploi::make()->pauseDaemon($record->id);
+                    Ploi::make()->pauseDaemon($record['id']);
 
                     $this->sendNotification('success', 'Daemon paused successfully');
 
@@ -155,7 +155,7 @@ class Daemons extends BasePage implements HasTable
             ->iconButton()
             ->action(function ($record) {
                 try {
-                    Ploi::make()->restartDaemon($record->id);
+                    Ploi::make()->restartDaemon($record['id']);
 
                     $this->sendNotification('success', 'Daemon restarted successfully');
 
@@ -176,7 +176,7 @@ class Daemons extends BasePage implements HasTable
             ->iconButton()
             ->action(function ($record) {
                 try {
-                    Ploi::make()->deleteDaemon($record->id);
+                    Ploi::make()->deleteDaemon($record['id']);
 
                     $this->sendNotification('success', 'Daemon deleted successfully');
 

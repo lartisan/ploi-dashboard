@@ -2,7 +2,8 @@
 
 namespace Lartisan\PloiDashboard\Pages;
 
-use Filament\Forms;
+use Filament\Forms\Components\Field;
+use Filament\Forms\Components\ViewField;
 use Filament\Pages\Page;
 use Filament\Tables;
 use Illuminate\Support\HtmlString;
@@ -23,9 +24,9 @@ abstract class BasePage extends Page
             ->view('ploi-dashboard::tables.columns.status');
     }
 
-    protected function getFormHeadingViewField(string $name, ?string $heading = null, HtmlString | string | null $description = null, int $colSpan = 1): Forms\Components\Field
+    protected function getFormHeadingViewField(string $name, ?string $heading = null, HtmlString | string | null $description = null, int $colSpan = 1): Field
     {
-        return Forms\Components\ViewField::make($name)
+        return ViewField::make($name)
             ->view('ploi-dashboard::forms.fields.form-heading')
             ->viewData([
                 'heading' => $heading,

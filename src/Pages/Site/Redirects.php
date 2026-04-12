@@ -101,16 +101,16 @@ class Redirects extends BasePage implements HasTable
     public function table(Tables\Table $table): Tables\Table
     {
         return $table
-            ->records(fn () => Ploi::make()->getRedirects())
+            ->records(fn () => Ploi::make()->getRedirects()->map(fn ($r) => $r->toLivewire()))
             ->poll(config('ploi-dashboard.polling.interval'))
             ->columns([
                 $this->getStatusColumn(),
 
                 Tables\Columns\TextColumn::make('redirect_from')
                     ->label('Redirect')
-                    ->formatStateUsing(fn ($record): string => sprintf('Redirect %s to %s', $record?->redirect_from, $record?->redirect_to))
+                    ->formatStateUsing(fn ($record): string => sprintf('Redirect %s to %s', $record['redirect_from'] ?? '', $record['redirect_to'] ?? ''))
                     ->description(
-                        fn ($record): string => $record->type === 'permanent' ? 'Permanent (301)' : 'Temporary (302)'
+                        fn ($record): string => ($record['type'] ?? '') === 'permanent' ? 'Permanent (301)' : 'Temporary (302)'
                     ),
             ])
             ->actions([
@@ -127,7 +127,7 @@ class Redirects extends BasePage implements HasTable
             ->iconButton()
             ->action(function ($record) {
                 try {
-                    Ploi::make()->deleteRedirect($record->id);
+                    Ploi::make()->deleteRedirect($record['id']);
 
                     $this->sendNotification('success', 'Redirect deleted successfully');
 

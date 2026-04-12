@@ -92,16 +92,17 @@ class Databases extends BasePage implements HasTable
     public function table(Tables\Table $table): Tables\Table
     {
         return $table
-            ->records(fn () => Ploi::make()->getDatabases())
+            ->records(fn () => Ploi::make()->getDatabases()->map(fn ($r) => $r->toLivewire()))
             ->poll(config('ploi-dashboard.polling.interval'))
             ->columns([
                 $this->getStatusColumn(),
 
                 Tables\Columns\TextColumn::make('name')
                     ->description(function ($record) {
-                        $description = count($record->users) . str(' database user')->plural(count($record->users));
+                        $users = $record['users'] ?? [];
+                        $description = count($users) . str(' database user')->plural(count($users));
 
-                        if ($domain = data_get($record->site, 'root_domain')) {
+                        if ($domain = data_get($record['site'] ?? [], 'root_domain')) {
                             $description = str($description)->append(' &bull; attached to ')->append($domain);
                         }
 
@@ -120,7 +121,7 @@ class Databases extends BasePage implements HasTable
                                 ]),
 
                             Forms\Components\TextInput::make('name')
-                                ->formatStateUsing(fn ($record) => $record->name . '_clone')
+                                ->formatStateUsing(fn ($record) => ($record['name'] ?? '') . '_clone')
                                 ->required(),
 
                             Forms\Components\TextInput::make('user')
@@ -138,7 +139,7 @@ class Databases extends BasePage implements HasTable
                         ])
                         ->action(function ($record, $data) {
                             try {
-                                Ploi::make()->cloneDatabase($record->id, $data);
+                                Ploi::make()->cloneDatabase($record['id'], $data);
 
                                 $this->sendNotification('success', 'Database cloned successfully');
 
@@ -154,7 +155,7 @@ class Databases extends BasePage implements HasTable
                         ->requiresConfirmation()
                         ->action(function ($record) {
                             try {
-                                Ploi::make()->deleteDatabase($record->id);
+                                Ploi::make()->deleteDatabase($record['id']);
 
                                 $this->sendNotification('success', 'Database deleted successfully');
 

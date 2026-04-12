@@ -113,15 +113,15 @@ class Certificate extends BasePage implements HasTable
     public function table(Tables\Table $table): Tables\Table
     {
         return $table
-            ->records(fn () => Ploi::make()->getCertificates())
+            ->records(fn () => Ploi::make()->getCertificates()->map(fn ($r) => $r->toLivewire()))
             ->poll(config('ploi-dashboard.polling.interval'))
             ->columns([
                 $this->getStatusColumn(),
 
                 Tables\Columns\TextColumn::make('domain')
                     ->description(
-                        fn ($record) => $record->expires_at
-                            ? sprintf('Expires %s', Carbon::parse($record->expires_at)->diffForHumans())
+                        fn ($record) => ($record['expires_at'] ?? null)
+                            ? sprintf('Expires %s', Carbon::parse($record['expires_at'])->diffForHumans())
                             : ''
                     ),
             ])
@@ -139,7 +139,7 @@ class Certificate extends BasePage implements HasTable
             ->iconButton()
             ->action(function ($record) {
                 try {
-                    Ploi::make()->deleteCertificate($record->id);
+                    Ploi::make()->deleteCertificate($record['id']);
 
                     $this->sendNotification('success', 'Certificate deleted successfully');
 

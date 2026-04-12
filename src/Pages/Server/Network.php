@@ -120,7 +120,7 @@ class Network extends BasePage implements HasTable
     public function table(Tables\Table $table): Tables\Table
     {
         return $table
-            ->records(fn () => Ploi::make()->listNetworkRules())
+            ->records(fn () => Ploi::make()->listNetworkRules()->map(fn ($r) => $r->toLivewire()))
             ->poll(config('ploi-dashboard.polling.interval'))
             ->paginated(false)
             ->columns([
@@ -128,7 +128,7 @@ class Network extends BasePage implements HasTable
                     $this->getStatusColumn()->grow(false),
 
                     Tables\Columns\TextColumn::make('name')
-                        ->description(fn ($record) => sprintf('%s %s', $record->rule_type, $record->port)),
+                        ->description(fn ($record) => sprintf('%s %s', $record['rule_type'], $record['port'])),
                 ]),
             ])
             ->actions([
@@ -145,7 +145,7 @@ class Network extends BasePage implements HasTable
             ->iconButton()
             ->action(function ($record) {
                 try {
-                    Ploi::make()->deleteNetworkRule($record->id);
+                    Ploi::make()->deleteNetworkRule($record['id']);
 
                     $this->sendNotification('success', 'Rule deleted successfully');
 

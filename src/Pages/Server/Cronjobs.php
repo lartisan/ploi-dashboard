@@ -134,17 +134,17 @@ class Cronjobs extends BasePage implements HasTable
     public function table(Tables\Table $table): Tables\Table
     {
         return $table
-            ->records(fn () => Ploi::make()->getCronjobs())
+            ->records(fn () => Ploi::make()->getCronjobs()->map(fn ($r) => $r->toLivewire()))
             ->poll(config('ploi-dashboard.polling.interval'))
             ->columns([
                 $this->getStatusColumn(),
 
                 Tables\Columns\TextColumn::make('command')
                     ->description(function ($record) {
-                        $description = sprintf('%s via user %s', $record->frequency, $record->user);
+                        $description = sprintf('%s via user %s', $record['frequency'], $record['user']);
 
-                        if ($record->description) {
-                            $description .= sprintf(' - %s', $record->description);
+                        if ($record['description'] ?? null) {
+                            $description .= sprintf(' - %s', $record['description']);
                         }
 
                         return $description;
@@ -164,7 +164,7 @@ class Cronjobs extends BasePage implements HasTable
             ->iconButton()
             ->action(function ($record) {
                 try {
-                    Ploi::make()->deleteCronjob($record->id);
+                    Ploi::make()->deleteCronjob($record['id']);
 
                     $this->sendNotification('success', 'Cronjob deleted successfully');
 
