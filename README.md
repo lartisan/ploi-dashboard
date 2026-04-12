@@ -6,7 +6,6 @@
 [![GitHub Tests](https://img.shields.io/github/actions/workflow/status/lartisan/ploi-dashboard/tests.yml?label=Tests)](https://github.com/lartisan/ploi-dashboard/actions)
 [![Total Downloads](https://img.shields.io/packagist/dt/lartisan/ploi-dashboard.svg)](https://packagist.org/packages/lartisan/ploi-dashboard)
 [![License](https://img.shields.io/packagist/l/lartisan/ploi-dashboard.svg)](https://packagist.org/packages/lartisan/ploi-dashboard)
-[![Live Demo](https://img.shields.io/badge/Live_Demo-architect.filamentcomponents.com-blue)](https://architect.filamentcomponents.com/)
 
 </div>
 
